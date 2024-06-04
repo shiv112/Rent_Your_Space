@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\Python\FlaskProjectBE\venv"
+VIRTUAL_ENV="D:\Python\rent_your_property_2\backend_python_mongodb\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
