@@ -5,10 +5,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController, ModalController } from '@ionic/angular';
 import { CustomValidatorsDirective } from 'src/app/shared/directives/custom-validators.directive';
 import { UserService } from '../user.service';
 import { first } from 'rxjs';
+import { UserOtpComponent } from '../user-otp/user-otp.component';
+
 
 @Component({
   selector: 'app-register',
@@ -20,6 +22,7 @@ export class RegisterComponent implements OnInit {
   public registerForm: UntypedFormGroup;
 
   constructor(
+    public modalController: ModalController,
     private fb: UntypedFormBuilder,
     private customValidators: CustomValidatorsDirective,
     private toastCtrl: ToastController,
@@ -49,6 +52,7 @@ export class RegisterComponent implements OnInit {
           ],
         ],
         confirm: ['', Validators.required],
+        number:['', Validators.required],
         termService: [false, Validators.required],
       },
       {
@@ -64,10 +68,20 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
 
   public submit() {
-    const { name, email, password } = this.registerForm.value;
-    this.user.register(name, email, password);
-   
+    console.log(this.registerForm.value);
+    const { name, email, password,number} = this.registerForm.value;
+    this.user.register(name, email, password,number);
+     this.presentUploadModal();  
   }
+
+  private async presentUploadModal() {
+    const modalUploads = await this.modalController.create({
+      component: UserOtpComponent,
+     // componentProps: { property }
+    });
+    await modalUploads.present();
+  }
+  
 
   // public async submit() {
   //   if (this.registerForm.invalid) {

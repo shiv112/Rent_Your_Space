@@ -19,9 +19,10 @@ export class UserService {
   public apiUrl = "https://flask-project-h2p5.onrender.com/";
   public user$: Observable<User>;
   private readonly userSub = new BehaviorSubject<User>(null);
-  result:any;
+  result: any;
 
   constructor(private http: HttpClient, private storage: StorageService) {
+
     this.user$ = this.userSub.asObservable();
     // Access Stored User
     this.storage.init().then(() => {
@@ -66,26 +67,27 @@ export class UserService {
     }
   }
 
-  public  register(name: string, email: string, password: string) {
+  public register(name: string, email: string, password: string, number: number) {
     try {
-           this.result = firstValueFrom(
-            this.http.post<User>(
-              this.apiUrl + 'insert',
-              {
-                name,
-                email,
-                password,
-              },
-              requestOptions
-            )
-          );
-          this.updateUser(this.result);
-          return this.result;
-        } catch (error) {
-          console.log('error', error);
-          return error;
-        }
-    
+      this.result = firstValueFrom(
+        this.http.post<User>(
+          this.apiUrl + 'create_user',
+          {
+            name,
+            email,
+            password,
+            number
+          },
+          requestOptions
+        )
+      );
+      this.updateUser(this.result);
+      return this.result;
+    } catch (error) {
+      console.log('error', error);
+      return error;
+    }
+
   }
 
   // public async register(fullName: string, email: string, password: string) {
@@ -121,7 +123,7 @@ export class UserService {
     }
   }
   private updateUser(user: User) {
-    console.log("124----",user);
+    console.log("124----", user);
     this.userSub.next(user);
     this.storage.setUser(user);
   }
@@ -130,4 +132,26 @@ export class UserService {
   //   this.userSub.next(user);
   //   await this.storage.setUser(user);
   // }
+
+  sendOtp(otp_code: Text) {
+    console.log("137",otp_code);
+    try {
+      this.result = firstValueFrom(
+        this.http.post<any>(
+          this.apiUrl + 'check_otp',
+          {
+            otp_code
+          },
+          requestOptions
+        )
+      );
+      //this.updateUser(this.result);
+      //return this.result;
+    } catch (error) {
+      console.log('error', error);
+      return error;
+    }
+
+
+  }
 }

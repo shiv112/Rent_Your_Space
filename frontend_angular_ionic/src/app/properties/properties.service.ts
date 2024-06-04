@@ -33,6 +33,7 @@ interface ResStrings extends ApiResponse {
   providedIn: 'root',
 })
 export class PropertiesService {
+  propertData: any;
   public readonly properties$: Observable<Property[]>;
   public readonly property$: Observable<Property>;
   private readonly propertiesSub = new BehaviorSubject<Property[]>([]);
@@ -43,6 +44,16 @@ export class PropertiesService {
     this.property$ = this.propertySub.asObservable();
     this.fetchProperties();
   }
+
+  public properties_two(): any {
+    this.http.get<any>("/assets/properties.json").subscribe((resp) => {
+
+      this.propertData = resp;
+      console.log(this.propertData);
+      return this.propertData;
+    });
+  }
+
 
   public get properties(): Property[] {
     return this.propertiesSub.getValue();

@@ -7,6 +7,7 @@ import { sortListByDate, sortListByName, sortListByNumber } from 'src/app/shared
 import { PropertiesService } from '../properties.service';
 import { PropertyType } from 'src/app/shared/enums/property';
 import { UserService } from 'src/app/user/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-properties-list',
@@ -30,11 +31,13 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
   private ownedPropertiesOnly = false;
   private searchText = '';
   private unsubscribe$ = new Subject<void>();
+  propertData:any;
 
   constructor(
     private userService: UserService,
     private propertiesService: PropertiesService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -96,30 +99,44 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getProperties() {
-    this.isLoading.emit(true);
-    this.unSubscribed();
+  public getProperties() {
 
-    this.propertiesService.properties$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
-      this.resetBehavior();
-      this.properties = this.limit ? v.slice(0, this.limit) : v;
-      this.sortProperties();
-      // if user toggles to show Owned properties only
-      if (this.ownedPropertiesOnly && this.userService.user) {
-        this.properties = this.properties.filter(item => item.user_id === this.userService.user.user_id);
-      }
-      // if user searched for a property
-      if (this.searchText) {
-        this.searchProperties();
-      }
-      // if any filters are being selected
-      if (this.filterBy.length) {
-        this.properties = this.properties.filter(item => this.filterBy.includes(item.type));
-      }
-      this.displayedItems = this.properties.slice(0, this.maxDisplayed);
+    this.http.get<any>("/assets/properties.json").subscribe((resp) => {
+
+      this.propertData = resp;
+      console.log(this.propertData);
     });
-    this.changeDetector.detectChanges();
+
+  //  this.propertyData = this.propertiesService.properties_two();
+
+  //   console.log("104",this.propertyData);
+    
   }
+
+  // private getProperties() {
+  //   this.isLoading.emit(true);
+  //   this.unSubscribed();
+
+  //   this.propertiesService.properties$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
+  //     this.resetBehavior();
+  //     this.properties = this.limit ? v.slice(0, this.limit) : v;
+  //     this.sortProperties();
+  //     // if user toggles to show Owned properties only
+  //     if (this.ownedPropertiesOnly && this.userService.user) {
+  //       this.properties = this.properties.filter(item => item.user_id === this.userService.user.user_id);
+  //     }
+  //     // if user searched for a property
+  //     if (this.searchText) {
+  //       this.searchProperties();
+  //     }
+  //     // if any filters are being selected
+  //     if (this.filterBy.length) {
+  //       this.properties = this.properties.filter(item => this.filterBy.includes(item.type));
+  //     }
+  //     this.displayedItems = this.properties.slice(0, this.maxDisplayed);
+  //   });
+  //   this.changeDetector.detectChanges();
+  // }
 
   private resetBehavior(): void {
     this.displayedItems = [];
