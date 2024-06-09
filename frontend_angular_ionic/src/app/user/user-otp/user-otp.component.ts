@@ -12,6 +12,7 @@ import { UserService } from '../user.service';
 })
 export class UserOtpComponent implements OnInit {
   otpForm: FormGroup = new FormGroup({
+    mob_num:new FormControl(''),
     otp_code: new FormControl('')
   });
 

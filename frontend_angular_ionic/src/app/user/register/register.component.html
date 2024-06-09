@@ -46,6 +46,16 @@
               ></ion-input>
             </ion-item>
 
+            
+            <ion-item>
+              <ion-input
+                type="text"
+                labelPlacement="floating"
+                label="Mobile Number"
+                formControlName="number"
+              ></ion-input>
+            </ion-item>
+
             <div
               class="alert-errors"
               *ngIf="registerForm.get('email').errors"
@@ -90,14 +100,6 @@
               ></app-alert-card>
             </div>
 
-            <ion-item>
-              <ion-input
-                type="text"
-                labelPlacement="floating"
-                label="Mobile Number"
-                formControlName="number"
-              ></ion-input>
-            </ion-item>
 
             <div class="ion-padding-vertical">
               By continuing, you agree to our <a>User Agreement</a> and

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { headerDict } from '../shared/utility';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, firstValueFrom } from 'rxjs';
 import { User } from '../shared/interface/user';
 import { StorageService } from '../shared/services/storage/storage.service';
 import { GoogleAuthResponse } from '../shared/interface/google';
@@ -16,10 +16,11 @@ const requestOptions = {
   providedIn: 'root'
 })
 export class UserService {
-  public apiUrl = "https://flask-project-h2p5.onrender.com/";
+  public apiUrl = "https://backend-python-mongodb.onrender.com/";
   public user$: Observable<User>;
   private readonly userSub = new BehaviorSubject<User>(null);
   result: any;
+  response:any;
 
   constructor(private http: HttpClient, private storage: StorageService) {
 
@@ -47,6 +48,25 @@ export class UserService {
     this.storage.removeUser();
   }
 
+  async sendOtp(obj: any):Promise<any> {
+    let mobile_number = obj.mobile_number
+    this.response = await firstValueFrom(
+      this.http.post<any>(
+        this.apiUrl + 'login_user',
+        {
+          mobile_number
+        },
+        requestOptions
+      )
+    );
+    // console.log("64--",this.response);
+    return this.response;
+  
+   
+
+
+  }
+
   public async signIn(email: string, password: string) {
     try {
       const result = await firstValueFrom(
@@ -67,26 +87,39 @@ export class UserService {
     }
   }
 
-  public register(name: string, email: string, password: string, number: number) {
+  public register2():Promise<any>{
     try {
-      this.result = firstValueFrom(
-        this.http.post<User>(
-          this.apiUrl + 'create_user',
-          {
-            name,
-            email,
-            password,
-            number
-          },
-          requestOptions
-        )
+      // firstValueFrom() return promise
+      const ress : Promise<any> = firstValueFrom(
+        this.http.get("https://jsonplaceholder.typicode.com/todos")
       );
-      this.updateUser(this.result);
-      return this.result;
+      console.log("128---",ress);
+      return ress;
+      
     } catch (error) {
       console.log('error', error);
       return error;
     }
+   
+  }
+
+  public register(name: string, email: string, password: string, number: number):Promise<any> {
+    this.result = firstValueFrom(
+      this.http.post<User>(
+        this.apiUrl + 'create_user',
+        {
+          name,
+          email,
+          password,
+          number
+        },
+        requestOptions
+      )
+    );
+    //console.log("136----", this.result);
+    this.updateUser(this.result);
+
+    return this.result;
 
   }
 
@@ -133,25 +166,5 @@ export class UserService {
   //   await this.storage.setUser(user);
   // }
 
-  sendOtp(otp_code: Text) {
-    console.log("137",otp_code);
-    try {
-      this.result = firstValueFrom(
-        this.http.post<any>(
-          this.apiUrl + 'check_otp',
-          {
-            otp_code
-          },
-          requestOptions
-        )
-      );
-      //this.updateUser(this.result);
-      //return this.result;
-    } catch (error) {
-      console.log('error', error);
-      return error;
-    }
 
-
-  }
 }

@@ -9,6 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { SigninComponent } from './signin/signin.component';
 
 import { UserPage } from './user.page';
+import { UserOtpComponent } from './user-otp/user-otp.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
     path: 'register',
     component: RegisterComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'signinotp',
+    component: UserOtpComponent
   },
   {
     path: 'signin',

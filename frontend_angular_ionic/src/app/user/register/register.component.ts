@@ -10,6 +10,7 @@ import { CustomValidatorsDirective } from 'src/app/shared/directives/custom-vali
 import { UserService } from '../user.service';
 import { first } from 'rxjs';
 import { UserOtpComponent } from '../user-otp/user-otp.component';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class RegisterComponent implements OnInit {
     private toastCtrl: ToastController,
     private loadingController: LoadingController,
     private router: Router,
-    private user: UserService
+    private user: UserService,
+    private http:HttpClient
   ) {
     this.registerForm = this.fb.group(
       {
@@ -68,9 +70,13 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
 
   public submit() {
-    console.log(this.registerForm.value);
     const { name, email, password,number} = this.registerForm.value;
-    this.user.register(name, email, password,number);
+    const resp:Promise<any> = this.user.register(name, email, password,number);
+    resp.then((value)=>{
+      console.log("76--",value);
+    }).catch((error)=>{
+      alert(error.status);
+    });
      this.presentUploadModal();  
   }
 
