@@ -16,32 +16,75 @@
           <div class="source"></div>
         </div>
       </ion-card-header>
-      <ion-card-content>
-        <form [formGroup]="signinOtpForm" (submit)="submit()">
+      <!------------------- sign in with password form---------------------------- -->
+      <ion-card-content *ngIf="signinStatus && sendOtpSuccess">
+        <form [formGroup]="signinpwdForm" (submit)="signInPwd()">
           <ion-list>
             <ion-item>
-              <ion-input
-                labelPlacement="floating"
-                type="number"
-                label="Enter 10 Digit Mobile Number"
-                formControlName="mobile_number"
-              ></ion-input>
+              <ion-input labelPlacement="floating" label="Email" type="email" formControlName="email"></ion-input>
             </ion-item>
+            <div class="alert-errors" *ngIf="error && signinForm.get('email').errors">
+              <app-alert-card content="Email is not valid."></app-alert-card>
+            </div>
+            <ion-item>
+              <ion-input labelPlacement="floating" label="Password" type="password"
+                formControlName="password"></ion-input>
+            </ion-item>
+            <div class="alert-errors" *ngIf="authFailed">
+              <app-alert-card content="Wrong Email or Password."></app-alert-card>
+            </div>
 
-            <ion-button
-            size="large"
-            class="ion-margin-top"
-            expand="full"
-            color="primary"
-            type="submit"
-            [disabled]="!signinOtpForm.valid"
-            (click)="signInOtp()"
-          >
-            Sign In With OTP
-          </ion-button>
+            <ion-button [disabled]="!signinpwdForm.valid" size="large" class="ion-margin-top" expand="full"
+              color="primary" type="submit">
+              Password Sign In
+            </ion-button>
+
+            <ion-button type="submit" (click)="switchSignIn()" class="ion-margin-top button-energized" expand="full" color="danger">
+              OTP Sign In
+            </ion-button>
+
+            <div class="ask-register">
+              First time here? <a [routerLink]="['/user/register']">Register</a>
+            </div>
           </ion-list>
         </form>
       </ion-card-content>
+      <!------------------- enter mob number form---------------------------- -->
+      <ion-card-content *ngIf="!signinStatus && sendOtpSuccess">
+        <form [formGroup]="signinOtpForm" (submit)="submit()">
+          <ion-list>
+            <ion-item>
+              <ion-input labelPlacement="floating" type="text" label="Enter 10 Digit Mobile Number"
+                formControlName="mobile_number"></ion-input>
+            </ion-item>
+
+            <ion-button size="large" class="ion-margin-top" expand="full" color="primary" type="submit"
+              [disabled]="!signinOtpForm.valid" (click)="sendOtp()">
+              Send OTP
+            </ion-button>
+            <div class="ask-register">
+              <a [routerLink]="['/user/register']">Register</a>
+              <a>Password Signin</a>
+            </div>
+          </ion-list>
+        </form>
+      </ion-card-content>
+        <!------------------- Enter OTP form---------------------------- -->
+        <ion-card-content *ngIf="!sendOtpSuccess">
+          <form [formGroup]="enterOtpForm" (submit)="submit()">
+            <ion-list>
+              <ion-item>
+                <ion-input labelPlacement="floating" type="text" label="Enter OTP"
+                  formControlName="otp"></ion-input>
+              </ion-item>
+  
+              <ion-button size="large" class="ion-margin-top" expand="full" color="primary" type="submit"
+                [disabled]="!signinOtpForm.valid" (click)="otpSignin()">
+                SIGN IN WITH OTP
+              </ion-button>
+            </ion-list>
+          </form>
+        </ion-card-content>
     </ion-card>
   </div>
   <app-footer></app-footer>

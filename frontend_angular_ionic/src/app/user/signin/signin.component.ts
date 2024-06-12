@@ -17,9 +17,12 @@ declare let google: any;
 export class SigninComponent implements OnInit, AfterViewInit {
   public error = false;
   public authFailed = false;
+  public signinpwdForm: UntypedFormGroup;
   public signinOtpForm: UntypedFormGroup;
-  public signinForm: UntypedFormGroup;
+  public enterOtpForm: UntypedFormGroup;
   public showSocial = false;
+  public signinStatus: Boolean = true;
+ public sendOtpSuccess: Boolean = true;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -30,25 +33,100 @@ export class SigninComponent implements OnInit, AfterViewInit {
     public platform: Platform
   ) {
 
-    
+
     this.signinOtpForm = this.fb.group({
-      mobile_number: ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$") ]]
+      mobile_number: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]]
     });
-    // this.signinForm = this.fb.group({
-    //   email: ['', [Validators.required, Validators.email]],
-    //   password: ['', Validators.required],
-    // });
+    this.signinpwdForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+    });
+    this.enterOtpForm = this.fb.group({
+      otp: ['', [Validators.required]]
+    });
   }
 
   ngOnInit() {
+    // this.signinStatus = true;
+    // this.sendOtpSuccess = true;
     //this.showSocial = !!environment.api.googleAuthClientId;
   }
 
-  public async signInOtp() {
-    if(this.signinOtpForm.valid){
+  public switchSignIn() {
+    this.signinStatus = false;
+  }
+
+  public async signInPwd() {
+    // if (this.signinForm.invalid) {
+    //   this.error = true;
+    //   return;
+    // }
+    // const loading = await this.presentLoading();
+    // loading.present();
+    // const { email, password } = this.signinForm.value;
+    // const errMssg = 'Something went wrong, try again later.';
+    // try {
+    //   const result = await this.user.signIn(email, password);
+    //   await loading.dismiss();
+    //   if (result.error) {
+    //     await this.showToast(result.error.message || errMssg, 'danger');
+    //     return;
+    //   }
+    //   await this.showToast('Success, You are logged in');
+    //   this.router.navigateByUrl('/map');
+    // } catch (error) {
+    //   await loading.dismiss();
+    //   await this.showToast(errMssg, 'danger');
+    // }
+  }
+
+  public async sendOtp() {
+    if (this.signinOtpForm.valid) {
       const loading = await this.presentLoading();
       loading.present();
       const response: Promise<any> = this.user.sendOtp(this.signinOtpForm.value);
+      await loading.dismiss();
+      response.then((value) => {
+        console.log("76--", value);
+      }).catch((error) => {
+        switch (error.status) {
+          case 400:
+            alert("400--Bad Request: The server could not understand the request due to invalid syntax.");
+            break;
+          case 401:
+            alert("401---Unauthorized: The client must authenticate itself to get the requested response.");
+            break;
+          case 403:
+            alert("403-- Forbidden: The client does not have access rights to the content");
+            break;
+          case 404:
+            alert("404 --Not Found: The server can not find the requested resourcet");
+            break;
+          case 500:
+            alert("500 -- Internal Server Error: The server has encountered a situation it doesn't know how to handle.t");
+            break;
+          case 0:
+            alert("0 --CORS Error");
+            break;
+          case 200:
+            alert("200--success");
+            this.sendOtpSuccess = false;
+            break;
+          default:
+            alert("Not Found Error");
+        }
+      });
+    }
+
+  }
+
+  public async otpSignin() {
+    // call when user entered OTP
+
+    if (this.enterOtpForm.valid) {
+      const loading = await this.presentLoading();
+      loading.present();
+      const response: Promise<any> = this.user.enterOtp(this.enterOtpForm.value);
       await loading.dismiss();
       response.then((value) => {
         console.log("76--", value);
@@ -80,7 +158,8 @@ export class SigninComponent implements OnInit, AfterViewInit {
         }
       });
     }
-   
+
+
   }
 
 
@@ -91,29 +170,7 @@ export class SigninComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public async submit() {
-    // if (this.signinForm.invalid) {
-    //   this.error = true;
-    //   return;
-    // }
-    // const loading = await this.presentLoading();
-    // loading.present();
-    // const { email, password } = this.signinForm.value;
-    // const errMssg = 'Something went wrong, try again later.';
-    // try {
-    //   const result = await this.user.signIn(email, password);
-    //   await loading.dismiss();
-    //   if (result.error) {
-    //     await this.showToast(result.error.message || errMssg, 'danger');
-    //     return;
-    //   }
-    //   await this.showToast('Success, You are logged in');
-    //   this.router.navigateByUrl('/map');
-    // } catch (error) {
-    //   await loading.dismiss();
-    //   await this.showToast(errMssg, 'danger');
-    // }
-  }
+
 
 
 

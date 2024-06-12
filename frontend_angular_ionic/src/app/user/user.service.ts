@@ -59,11 +59,21 @@ export class UserService {
         requestOptions
       )
     );
-    // console.log("64--",this.response);
     return this.response;
-  
-   
+  }
 
+  async enterOtp(obj:any):Promise<any>{
+    let otp_code = obj.otp
+    this.response = await firstValueFrom(
+      this.http.post<any>(
+        this.apiUrl + 'check_otp',
+        {
+          otp_code
+        },
+        requestOptions
+      )
+    );
+    return this.response;
 
   }
 
