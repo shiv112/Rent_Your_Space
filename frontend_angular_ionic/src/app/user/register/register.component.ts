@@ -4,7 +4,7 @@ import {
   UntypedFormBuilder,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController, LoadingController, ModalController } from '@ionic/angular';
 import { CustomValidatorsDirective } from 'src/app/shared/directives/custom-validators.directive';
 import { UserService } from '../user.service';
@@ -30,11 +30,12 @@ export class RegisterComponent implements OnInit {
     private loadingController: LoadingController,
     private router: Router,
     private user: UserService,
-    private http:HttpClient
+    private http:HttpClient,
+    public route: ActivatedRoute,
   ) {
     this.registerForm = this.fb.group(
       {
-        name: ['', [Validators.required, Validators.minLength(4)]],
+        full_name: ['', [Validators.required, Validators.minLength(4)]],
         email: ['', [Validators.required, customValidators.emailValidation()]],
         password: [
           '',
@@ -54,7 +55,7 @@ export class RegisterComponent implements OnInit {
           ],
         ],
         confirm: ['', Validators.required],
-        number:['', Validators.required],
+        mobile_number:['', Validators.required],
         termService: [false, Validators.required],
       },
       {
@@ -67,11 +68,20 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("registerrrrrr");
+    // this.route.params.subscribe((params) => {
+    //   alert("reggg");
+    // });
+  
+    //this.router.navigateByUrl('/user/register');
+    //  '/user/register'
+    // '/user/signin'
+  }
 
   public submit() {
-    const { name, email, password,number} = this.registerForm.value;
-    const resp:Promise<any> = this.user.register(name, email, password,number);
+    const { full_name, email, password,mobile_number} = this.registerForm.value;
+    const resp:Promise<any> = this.user.register(full_name, email, password,mobile_number);
     resp.then((value)=>{
       console.log("76--",value);
     }).catch((error)=>{

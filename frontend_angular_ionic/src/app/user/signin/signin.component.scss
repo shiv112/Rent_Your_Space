@@ -1,6 +1,7 @@
 ion-content {
   --background: var(--ion-color-light);
 }
+
 .signin-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -14,11 +15,23 @@ ion-content {
 .signin-card {
   width: 100%;
   max-width: 400px;
+
   ion-item {
     margin-top: 8px;
     --background: var(--ion-color-light);
   }
 }
+
+ion-button.navSignIn.md.button.button-solid.ion-activatable.ion-focusable.hydrated {
+  --background: none;
+    color: var(--ion-color-primary, #3880ff);
+    --box-shadow:none;
+    text-decoration: underline;
+}
+.navSignIn{
+  margin-top: -2%;
+}
+
 
 .logo-container {
   margin: 30px auto 0;
@@ -37,6 +50,7 @@ ion-content {
   display: flex;
   justify-content: center;
   text-transform: uppercase;
+
   a {
     margin-left: 6px;
   }
@@ -52,6 +66,7 @@ ion-content {
   ion-content {
     --background: var(--ion-color-dark-contrast);
   }
+
   .signin-card {
     margin: 0;
     box-shadow: none;

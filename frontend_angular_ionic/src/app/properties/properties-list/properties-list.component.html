@@ -1,4 +1,5 @@
-<pre>{{propertData|json}}</pre>
+<!-- <pre>{{propertData|json}}</pre> -->
+<app-properties-card [property]="propertData"></app-properties-card>
 
 
 <!-- 
@@ -12,6 +13,7 @@
     *ngFor="let item of displayedItems"
   >
     <app-properties-card [property]="item"></app-properties-card>
+ 
   </ion-col>
 
   <ion-col

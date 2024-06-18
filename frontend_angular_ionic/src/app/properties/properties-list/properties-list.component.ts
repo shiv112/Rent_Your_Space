@@ -99,17 +99,25 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getProperties() {
+  // public getProperties() {
 
-    this.http.get<any>("/assets/properties.json").subscribe((resp) => {
+  //   this.http.get<any>("/assets/properties-json").subscribe((resp) => {
 
-      this.propertData = resp;
-      console.log(this.propertData);
-    });
+  //     this.propertData = resp;
+  //     console.log(this.propertData);
+  //   });
 
   //  this.propertyData = this.propertiesService.properties_two();
 
   //   console.log("104",this.propertyData);
+    
+  // }
+  private getProperties() {
+  
+
+    this.propertiesService.properties$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
+     //code....continue
+    });
     
   }
 

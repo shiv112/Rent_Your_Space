@@ -24,13 +24,13 @@
                 type="text"
                 labelPlacement="floating"
                 label="Full Name"
-                formControlName="name"
+                formControlName="full_name"
               ></ion-input>
             </ion-item>
 
             <div
               class="alert-errors"
-              *ngIf="registerForm.get('name').errors"
+              *ngIf="registerForm.get('full_name').errors"
             >
               <app-alert-card
                 content="Full Name is too short."
@@ -52,7 +52,7 @@
                 type="text"
                 labelPlacement="floating"
                 label="Mobile Number"
-                formControlName="number"
+                formControlName="mobile_number"
               ></ion-input>
             </ion-item>
 
@@ -118,7 +118,7 @@
 
             <div class="ask-signin">
               Already have an Account?
-              <a [routerLink]="['/user/signin']">Sign in</a>
+              <a routerLink="/user/signin">Sign in</a>
             </div>
           </ion-list>
         </form>

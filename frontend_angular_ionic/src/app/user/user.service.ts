@@ -49,7 +49,7 @@ export class UserService {
   }
 
   async sendOtp(obj: any):Promise<any> {
-    let mobile_number = obj.mobile_number
+    let mobile_number = "+91"+ obj.mobile_number
     this.response = await firstValueFrom(
       this.http.post<any>(
         this.apiUrl + 'login_user',
@@ -113,15 +113,15 @@ export class UserService {
    
   }
 
-  public register(name: string, email: string, password: string, number: number):Promise<any> {
+  public register(full_name: string, email: string, password: string, mobile_number: number):Promise<any> {
     this.result = firstValueFrom(
       this.http.post<User>(
         this.apiUrl + 'create_user',
         {
-          name,
+          full_name,
           email,
           password,
-          number
+          mobile_number
         },
         requestOptions
       )

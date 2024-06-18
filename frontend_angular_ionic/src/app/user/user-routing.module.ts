@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/user/account',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'account',
@@ -24,41 +24,45 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: '/user/account/profile',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'profile',
-        component: ProfileComponent
+        component: ProfileComponent,
       },
       {
         path: 'change-password',
-        component: ChangePasswordComponent
+        component: ChangePasswordComponent,
       },
       {
         path: 'notifications',
-        component: NotificationsComponent
+        component: NotificationsComponent,
       },
     ],
-    canActivate: [AuthGuestGuard]
+    canActivate: [AuthGuestGuard],
   },
   {
     path: 'register',
     component: RegisterComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'signinotp',
-    component: UserOtpComponent
+    component: UserOtpComponent,
   },
   {
     path: 'signin',
-    component: SigninComponent,
-    canActivate: [AuthGuard]
+    component: SigninComponent
+    // canActivate: [AuthGuard],
   }
+  // {
+  //   path: '**',
+  //   component: SigninComponent,
+  // },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class UserPageRoutingModule { }
+export class UserPageRoutingModule {}
