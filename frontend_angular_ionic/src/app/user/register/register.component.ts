@@ -5,13 +5,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController, LoadingController, ModalController } from '@ionic/angular';
+import {
+  ToastController,
+  LoadingController,
+  ModalController,
+  AlertController,
+} from '@ionic/angular';
 import { CustomValidatorsDirective } from 'src/app/shared/directives/custom-validators.directive';
 import { UserService } from '../user.service';
 import { first } from 'rxjs';
 import { UserOtpComponent } from '../user-otp/user-otp.component';
 import { HttpClient } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-register',
@@ -30,8 +34,9 @@ export class RegisterComponent implements OnInit {
     private loadingController: LoadingController,
     private router: Router,
     private user: UserService,
-    private http:HttpClient,
+    private http: HttpClient,
     public route: ActivatedRoute,
+    private alertController: AlertController
   ) {
     this.registerForm = this.fb.group(
       {
@@ -55,7 +60,7 @@ export class RegisterComponent implements OnInit {
           ],
         ],
         confirm: ['', Validators.required],
-        mobile_number:['', Validators.required],
+        mobile_number: ['', Validators.required],
         termService: [false, Validators.required],
       },
       {
@@ -68,56 +73,46 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    console.log("registerrrrrr");
-    // this.route.params.subscribe((params) => {
-    //   alert("reggg");
-    // });
-  
-    //this.router.navigateByUrl('/user/register');
-    //  '/user/register'
-    // '/user/signin'
+  ngOnInit() {}
+
+  public async submit() {
+    const loading = await this.presentLoading();
+    loading.present();
+    try {
+      const { full_name, email, password, mobile_number } =
+        this.registerForm.value;
+      await this.user.register(full_name, email, password, mobile_number);
+    } catch (error) {
+      await loading.dismiss();
+      if (error.error.text === 'already registered' && error.status === 200) {
+        this.alertMob();
+      } else if (error.error.text === 'done' && error.status === 200) {
+        this.navToSigin();
+      } else {
+        this.alertServer();
+      }
+    }
   }
 
-  public submit() {
-    const { full_name, email, password,mobile_number} = this.registerForm.value;
-    const resp:Promise<any> = this.user.register(full_name, email, password,mobile_number);
-    resp.then((value)=>{
-      console.log("76--",value);
-    }).catch((error)=>{
-      alert(error.status);
+  navToSigin() {
+    this.router.navigate(['/user/signin']);
+  }
+
+  private async alertMob() {
+    const alert = await this.alertController.create({
+      message: 'Mobile Number Already Registered',
+      buttons: ['OK'],
     });
-     this.presentUploadModal();  
+    await alert.present();
   }
 
-  private async presentUploadModal() {
-    const modalUploads = await this.modalController.create({
-      component: UserOtpComponent,
-     // componentProps: { property }
+  private async alertServer() {
+    const alert = await this.alertController.create({
+      message: 'Server Error',
+      buttons: ['OK'],
     });
-    await modalUploads.present();
+    await alert.present();
   }
-  
-
-  // public async submit() {
-  //   if (this.registerForm.invalid) {
-  //     this.error = true;
-  //     return;
-  //   }
-  //   const loading = await this.presentLoading();
-  //   loading.present();
-
-  //   const { fullName, email, password } = this.registerForm.value;
-  //   const result = await this.user.register(fullName, email, password);
-  //   if (!result.error) {
-  //     loading.dismiss();
-  //     await this.showToast('Success, registration is complete.');
-  //     await this.router.navigateByUrl('/user/account/profile');
-  //     return;
-  //   }
-  //   await this.showToast('Error:' + result.error.message, 'danger');
-  //   loading.dismiss();
-  // }
 
   private async presentLoading() {
     return await this.loadingController.create({
@@ -135,3 +130,54 @@ export class RegisterComponent implements OnInit {
     toast.present();
   }
 }
+
+//----------------------- unused code delete it-----------------
+
+// public async submit() {
+//   if (this.registerForm.invalid) {
+//     this.error = true;
+//     return;
+//   }
+//   const loading = await this.presentLoading();
+//   loading.present();
+
+//   const { fullName, email, password } = this.registerForm.value;
+//   const result = await this.user.register(fullName, email, password);
+//   if (!result.error) {
+//     loading.dismiss();
+//     await this.showToast('Success, registration is complete.');
+//     await this.router.navigateByUrl('/user/account/profile');
+//     return;
+//   }
+//   await this.showToast('Error:' + result.error.message, 'danger');
+//   loading.dismiss();
+// }
+
+// public async submit() {
+//   const loading = await this.presentLoading();
+//   loading.present();
+//   const { full_name, email, password, mobile_number } =
+//     this.registerForm.value;
+//   const response: Promise<any> = this.user.register(
+//     full_name,
+//     email,
+//     password,
+//     mobile_number
+//   );
+//   await loading.dismiss();
+//   console.log("96----",response);
+//   response.then((value) => {
+//       console.log('98--', value.ok);
+//     })
+//     .catch((error) => {
+//       console.log("102---",error.error.text);
+//       switch (error.status) {
+//         case 200:
+//           this.navToSigin()
+//           break;
+//         default:
+//           alert('Server Error');
+//       }
+//     });
+//   this.presentUploadModal();
+// }

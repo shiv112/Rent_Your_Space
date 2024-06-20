@@ -154,19 +154,19 @@ export class UserService {
   //   }
   // }
 
-  public async googleAuth(payload: GoogleAuthResponse) {
-    try {
-      const result = await firstValueFrom(
-        this.http.post<User>(url + 'auth/google', payload)
-      );
-      await this.updateUser(result);
-      return result;
-    } catch (error) {
-      console.log('google-auth error:', error);
-    }
-  }
+  // public async googleAuth(payload: GoogleAuthResponse) {
+  //   try {
+  //     const result = await firstValueFrom(
+  //       this.http.post<User>(url + 'auth/google', payload)
+  //     );
+  //     await this.updateUser(result);
+  //     return result;
+  //   } catch (error) {
+  //     console.log('google-auth error:', error);
+  //   }
+  // }
   private updateUser(user: User) {
-    console.log("124----", user);
+    //console.log("124----", user);
     this.userSub.next(user);
     this.storage.setUser(user);
   }
