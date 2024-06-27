@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { headerDict } from '../shared/utility';
 import { BehaviorSubject, Observable, catchError, firstValueFrom } from 'rxjs';
 import { User } from '../shared/interface/user';
@@ -13,17 +17,16 @@ const requestOptions = {
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  public apiUrl = "https://backend-python-mongodb.onrender.com/";
+  public apiUrl = 'https://backend-python-mongodb.onrender.com/';
   public user$: Observable<User>;
   private readonly userSub = new BehaviorSubject<User>(null);
   result: any;
-  response:any;
+  response: any;
 
   constructor(private http: HttpClient, private storage: StorageService) {
-
     this.user$ = this.userSub.asObservable();
     // Access Stored User
     this.storage.init().then(() => {
@@ -48,13 +51,13 @@ export class UserService {
     this.storage.removeUser();
   }
 
-  async sendOtp(obj: any):Promise<any> {
-    let mobile_number = "+91"+ obj.mobile_number
+  async sendOtp(obj: any): Promise<any> {
+    let mobile_number = '+91' + obj.mobile_number;
     this.response = await firstValueFrom(
       this.http.post<any>(
         this.apiUrl + 'login_user',
         {
-          mobile_number
+          mobile_number,
         },
         requestOptions
       )
@@ -62,20 +65,41 @@ export class UserService {
     return this.response;
   }
 
-  async enterOtp(obj:any):Promise<any>{
-    let otp_code = obj.otp
-    this.response = await firstValueFrom(
-      this.http.post<any>(
-        this.apiUrl + 'check_otp',
-        {
+  async enterOtp(obj: any) {
+    try {
+      let otp_code = obj.otp;
+      const response = await firstValueFrom(
+        this.http.post<any>(this.apiUrl + 'check_otp', { 
           otp_code
-        },
-        requestOptions
-      )
-    );
-    return this.response;
+        })
+      );
+      return response;
+    } catch (error) {
+      throw error; 
+      // if(error instanceof HttpErrorResponse){
 
+      //   console.log("HTTP Error",error.status,error.message);
+
+      // }else{
+      //   console.log('An unexpected error occurred:', error);
+      // }       
+    }
   }
+
+  //   async enterOtp(obj:any):Promise<any>{
+  //   let otp_code = obj.otp
+  //   this.response = await firstValueFrom(
+  //     this.http.post<any>(
+  //       this.apiUrl + 'check_otp',
+  //       {
+  //         otp_code
+  //       },
+  //       requestOptions
+  //     )
+  //   );
+  //   return this.response;
+
+  // }
 
   public async signIn(email: string, password: string) {
     try {
@@ -97,23 +121,12 @@ export class UserService {
     }
   }
 
-  public register2():Promise<any>{
-    try {
-      // firstValueFrom() return promise
-      const ress : Promise<any> = firstValueFrom(
-        this.http.get("https://jsonplaceholder.typicode.com/todos")
-      );
-      console.log("128---",ress);
-      return ress;
-      
-    } catch (error) {
-      console.log('error', error);
-      return error;
-    }
-   
-  }
-
-  public register(full_name: string, email: string, password: string, mobile_number: number):Promise<any> {
+  public register(
+    full_name: string,
+    email: string,
+    password: string,
+    mobile_number: number
+  ): Promise<any> {
     this.result = firstValueFrom(
       this.http.post<User>(
         this.apiUrl + 'create_user',
@@ -121,16 +134,14 @@ export class UserService {
           full_name,
           email,
           password,
-          mobile_number
+          mobile_number,
         },
         requestOptions
       )
     );
     //console.log("136----", this.result);
     this.updateUser(this.result);
-
     return this.result;
-
   }
 
   // public async register(fullName: string, email: string, password: string) {
@@ -175,6 +186,4 @@ export class UserService {
   //   this.userSub.next(user);
   //   await this.storage.setUser(user);
   // }
-
-
 }

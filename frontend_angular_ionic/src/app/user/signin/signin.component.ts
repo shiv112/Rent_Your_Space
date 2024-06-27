@@ -23,15 +23,15 @@ export class SigninComponent implements OnInit {
   public showSocial = false;
   public signinStatus: Boolean = true;
   public sendOtpSuccess: Boolean = true;
+  data: any;
 
   constructor(
     private fb: UntypedFormBuilder,
     private user: UserService,
-    private toastCtrl: ToastController,
     public loadingController: LoadingController,
-    private router: Router,
     public platform: Platform,
     public route: ActivatedRoute,
+    public router: Router,
     private alertController: AlertController
   ) {
     this.signinOtpForm = this.fb.group({
@@ -50,124 +50,71 @@ export class SigninComponent implements OnInit {
   }
 
   ngOnInit() {
+    // call when sigin component reloads
     this.route.params.subscribe((params) => {
+      console.log("I am sigin page");
       console.log(params);
       this.signinStatus = true;
+      this.sendOtpSuccess = true;
     });
   }
 
   // call when user entered mobile number
   public async sendOtp() {
-    if (this.signinOtpForm.valid) {
-      const loading = await this.presentLoading();
-      loading.present();
-      const response: Promise<any> = this.user.sendOtp(
-        this.signinOtpForm.value
-      );
+    // loader start
+    const loading = await this.presentLoading();
+    loading.present();
+    try {
+      this.data = await this.user.sendOtp(this.signinOtpForm.value);
+      // loader end
       await loading.dismiss();
-      console.log('90--', response);
-      response
-        .then((value) => {
-          console.log('76--', value);
-        })
-        .catch((error) => {
-          switch (error.status) {
-            case 400:
-              alert(
-                '400--Bad Request: The server could not understand the request due to invalid syntax.'
-              );
-              break;
-            case 401:
-              alert(
-                '401---Unauthorized: The client must authenticate itself to get the requested response.'
-              );
-              break;
-            case 403:
-              alert(
-                '403-- Forbidden: The client does not have access rights to the content'
-              );
-              break;
-            case 404:
-              alert(
-                '404 --Not Found: The server can not find the requested resourcet'
-              );
-              break;
-            case 500:
-              alert(
-                "500 -- Internal Server Error: The server has encountered a situation it doesn't know how to handle.t"
-              );
-              break;
-            case 0:
-              alert('0 --CORS Error');
-              break;
-            case 200:
-              alert('200--success');
-              this.sendOtpSuccess = false;
-              break;
-            default:
-              alert('Not Found Error');
-          }
-        });
+      this.sendOtpSuccess = false;
+    } catch (error) {
+      // loader end
+      await loading.dismiss();
+      // when api crash like cors error
+      this.sendOtpSuccess = false;
     }
   }
   // call when user entered OTP
   public async otpSignin() {
-    if (this.enterOtpForm.valid) {
-      const loading = await this.presentLoading();
-      loading.present();
-      const response: Promise<any> = this.user.enterOtp(
-        this.enterOtpForm.value
-      );
+    // loader start
+    const loading = await this.presentLoading();
+    loading.present();
+    try {
+      this.data = await this.user.enterOtp(this.enterOtpForm.value);
+      if (JSON.stringify(this.data.status_code) === '200') {
+        // loader end
+        await loading.dismiss();
+        this.router.navigateByUrl('/properties');
+      } else {
+        // loader end
+        await loading.dismiss();
+        this.wrongOtp();
+      }
+    } catch (error) {
+      // loader end
       await loading.dismiss();
-      response
-        .then((value) => {
-          console.log('76--', value);
-        })
-        .catch((error) => {
-          switch (error.status) {
-            case 400:
-              alert(
-                '400--Bad Request: The server could not understand the request due to invalid syntax.'
-              );
-              break;
-            case 401:
-              alert(
-                '401---Unauthorized: The client must authenticate itself to get the requested response.'
-              );
-              break;
-            case 403:
-              alert(
-                '403-- Forbidden: The client does not have access rights to the content'
-              );
-              break;
-            case 404:
-              alert(
-                '404 --Not Found: The server can not find the requested resourcet'
-              );
-              break;
-            case 500:
-              alert(
-                "500 -- Internal Server Error: The server has encountered a situation it doesn't know how to handle.t"
-              );
-              break;
-            case 0:
-              alert('0 --CORS Error');
-              break;
-            case 200:
-              'presentAlert()';
-              break;
-            default:
-              alert('Not Found Error');
-          }
-        });
+      // when api crash like cors error
+      alert(error.statusText);
     }
   }
-
+  // call when user click otp signin button
   public switchSignIn() {
     this.signinStatus = false;
   }
+  // call when user click password signin link
   public navToSignIn() {
     this.signinStatus = true;
+  }
+
+  // call when backend api fails
+  private async alertServer() {
+    const alert = await this.alertController.create({
+      message: 'Server Error',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
   // show alert when api fails from server end
   async presentAlert() {
@@ -181,6 +128,14 @@ export class SigninComponent implements OnInit {
 
     await alert.present();
   }
+   // call when user entered wrong otp
+   private async wrongOtp() {
+    const alert = await this.alertController.create({
+      message: 'Please Enter Correct OTP',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
   // show loader on api calls
   private async presentLoading() {
     return await this.loadingController.create({
@@ -189,6 +144,33 @@ export class SigninComponent implements OnInit {
     });
   }
 }
+// --------------unused code----------------------
+
+// if (JSON.stringify(this.data.status_code) === '200') {
+// loader end
+// await loading.dismiss();
+// this.router.navigateByUrl('/user/account/profile');
+//} else {
+// loader end
+// await loading.dismiss();
+//  alert('server error');
+
+// public async sendOtp() {
+//   try {
+//        if (this.signinOtpForm.valid) {
+//    this.user.sendOtp(
+//       this.signinOtpForm.value
+//     );
+//     }
+//     } catch (error) {
+//     console.log("75--",error);
+//     if (error.status === 200) {
+//       this.sendOtpSuccess = false;
+//     } else {
+//       this.alertServer();
+//     }
+//   }
+// }
 
 // ngAfterViewInit(): void {
 //   console.log("ngAfterViewInit---->", this.signinStatus);

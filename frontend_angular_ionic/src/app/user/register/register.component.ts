@@ -13,9 +13,7 @@ import {
 } from '@ionic/angular';
 import { CustomValidatorsDirective } from 'src/app/shared/directives/custom-validators.directive';
 import { UserService } from '../user.service';
-import { first } from 'rxjs';
-import { UserOtpComponent } from '../user-otp/user-otp.component';
-import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-register',
@@ -34,7 +32,6 @@ export class RegisterComponent implements OnInit {
     private loadingController: LoadingController,
     private router: Router,
     private user: UserService,
-    private http: HttpClient,
     public route: ActivatedRoute,
     private alertController: AlertController
   ) {
@@ -74,7 +71,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {}
-
+  // call when user hit register button
   public async submit() {
     const loading = await this.presentLoading();
     loading.present();
@@ -84,6 +81,7 @@ export class RegisterComponent implements OnInit {
       await this.user.register(full_name, email, password, mobile_number);
     } catch (error) {
       await loading.dismiss();
+      console.log("inside catch register");
       if (error.error.text === 'already registered' && error.status === 200) {
         this.alertMob();
       } else if (error.error.text === 'done' && error.status === 200) {
@@ -93,11 +91,12 @@ export class RegisterComponent implements OnInit {
       }
     }
   }
-
+  // call when user successfully registered
   navToSigin() {
     this.router.navigate(['/user/signin']);
   }
 
+  // call when user entered mobile number which already registered in database
   private async alertMob() {
     const alert = await this.alertController.create({
       message: 'Mobile Number Already Registered',
@@ -105,7 +104,7 @@ export class RegisterComponent implements OnInit {
     });
     await alert.present();
   }
-
+  // call when backend api fails
   private async alertServer() {
     const alert = await this.alertController.create({
       message: 'Server Error',
@@ -113,7 +112,7 @@ export class RegisterComponent implements OnInit {
     });
     await alert.present();
   }
-
+  // call when api calling inprogress
   private async presentLoading() {
     return await this.loadingController.create({
       cssClass: 'my-custom-class',
@@ -121,17 +120,18 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  private async showToast(message: string, color = 'success') {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 2000,
-      color,
-    });
-    toast.present();
-  }
 }
 
 //----------------------- unused code delete it-----------------
+
+  // private async showToast(message: string, color = 'success') {
+  //   const toast = await this.toastCtrl.create({
+  //     message,
+  //     duration: 2000,
+  //     color,
+  //   });
+  //   toast.present();
+  // }
 
 // public async submit() {
 //   if (this.registerForm.invalid) {

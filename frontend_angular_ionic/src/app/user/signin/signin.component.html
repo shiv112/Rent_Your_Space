@@ -110,7 +110,7 @@
       </ion-card-content>
       <!------------------- Enter OTP form which we received in mob---------------------------- -->
       <ion-card-content *ngIf="!sendOtpSuccess">
-        <form [formGroup]="enterOtpForm" (submit)="submit()">
+        <form [formGroup]="enterOtpForm">
           <ion-list>
             <ion-item>
               <ion-input
