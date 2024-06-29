@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { headerDict } from '../shared/utility';
 import { BehaviorSubject, Observable, catchError, firstValueFrom } from 'rxjs';
 import { User } from '../shared/interface/user';
 import { StorageService } from '../shared/services/storage/storage.service';
-import { GoogleAuthResponse } from '../shared/interface/google';
 
 const url = environment.api.server;
 const requestOptions = {
@@ -50,56 +45,34 @@ export class UserService {
     this.userSub.next(null);
     this.storage.removeUser();
   }
-
-  async sendOtp(obj: any): Promise<any> {
-    let mobile_number = '+91' + obj.mobile_number;
-    this.response = await firstValueFrom(
-      this.http.post<any>(
-        this.apiUrl + 'login_user',
-        {
-          mobile_number,
-        },
-        requestOptions
-      )
-    );
-    return this.response;
-  }
-
-  async enterOtp(obj: any) {
+  // call when user entered mobile number
+  async sendOtp(obj: any) {
     try {
-      let otp_code = obj.otp;
+      let mobile_number = '+91' + obj.mobile_number;
       const response = await firstValueFrom(
-        this.http.post<any>(this.apiUrl + 'check_otp', { 
-          otp_code
+        this.http.post<any>(this.apiUrl + 'login_user', {
+          mobile_number,
         })
       );
       return response;
     } catch (error) {
-      throw error; 
-      // if(error instanceof HttpErrorResponse){
-
-      //   console.log("HTTP Error",error.status,error.message);
-
-      // }else{
-      //   console.log('An unexpected error occurred:', error);
-      // }       
+      throw error;
     }
   }
-
-  //   async enterOtp(obj:any):Promise<any>{
-  //   let otp_code = obj.otp
-  //   this.response = await firstValueFrom(
-  //     this.http.post<any>(
-  //       this.apiUrl + 'check_otp',
-  //       {
-  //         otp_code
-  //       },
-  //       requestOptions
-  //     )
-  //   );
-  //   return this.response;
-
-  // }
+  // call when user entered OTP
+  async enterOtp(obj: any) {
+    try {
+      let otp_code = obj.otp;
+      const response = await firstValueFrom(
+        this.http.post<any>(this.apiUrl + 'check_otp', {
+          otp_code,
+        })
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   public async signIn(email: string, password: string) {
     try {
@@ -121,69 +94,28 @@ export class UserService {
     }
   }
 
-  public register(
+  public async register(
     full_name: string,
     email: string,
     password: string,
     mobile_number: number
-  ): Promise<any> {
-    this.result = firstValueFrom(
-      this.http.post<User>(
-        this.apiUrl + 'create_user',
-        {
+  ){
+    try {
+      const response = await firstValueFrom(
+        this.http.post<User>(this.apiUrl + 'create_user', {
           full_name,
           email,
           password,
-          mobile_number,
-        },
-        requestOptions
-      )
-    );
-    //console.log("136----", this.result);
-    this.updateUser(this.result);
-    return this.result;
+          mobile_number
+        })
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
   }
-
-  // public async register(fullName: string, email: string, password: string) {
-  //   try {
-  //     const result = await firstValueFrom(
-  //       this.http.post<User>(
-  //         url + 'auth/register',
-  //         {
-  //           fullName,
-  //           email,
-  //           password,
-  //         },
-  //         requestOptions
-  //       )
-  //     );
-  //     await this.updateUser(result);
-  //     return result;
-  //   } catch (error) {
-  //     console.log('error', error);
-  //     return error;
-  //   }
-  // }
-
-  // public async googleAuth(payload: GoogleAuthResponse) {
-  //   try {
-  //     const result = await firstValueFrom(
-  //       this.http.post<User>(url + 'auth/google', payload)
-  //     );
-  //     await this.updateUser(result);
-  //     return result;
-  //   } catch (error) {
-  //     console.log('google-auth error:', error);
-  //   }
-  // }
   private updateUser(user: User) {
-    //console.log("124----", user);
     this.userSub.next(user);
     this.storage.setUser(user);
   }
-
-  // private async updateUser(user: User) {
-  //   this.userSub.next(user);
-  //   await this.storage.setUser(user);
-  // }
 }

@@ -5,7 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, Platform, ToastController } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 import { UserService } from '../user.service';
 import { AlertController } from '@ionic/angular';
 
@@ -52,7 +52,7 @@ export class SigninComponent implements OnInit {
   ngOnInit() {
     // call when sigin component reloads
     this.route.params.subscribe((params) => {
-      console.log("I am sigin page");
+      console.log('I am sigin page');
       console.log(params);
       this.signinStatus = true;
       this.sendOtpSuccess = true;
@@ -66,14 +66,20 @@ export class SigninComponent implements OnInit {
     loading.present();
     try {
       this.data = await this.user.sendOtp(this.signinOtpForm.value);
-      // loader end
-      await loading.dismiss();
-      this.sendOtpSuccess = false;
+      if (JSON.stringify(this.data.status_code) === '200') {
+        // loader end
+        await loading.dismiss();
+        this.sendOtpSuccess = false;
+      } else {
+        // loader end
+        await loading.dismiss();
+        this.alertServer();
+      }
     } catch (error) {
       // loader end
       await loading.dismiss();
       // when api crash like cors error
-      this.sendOtpSuccess = false;
+      alert(error.statusText);
     }
   }
   // call when user entered OTP
@@ -128,8 +134,8 @@ export class SigninComponent implements OnInit {
 
     await alert.present();
   }
-   // call when user entered wrong otp
-   private async wrongOtp() {
+  // call when user entered wrong otp
+  private async wrongOtp() {
     const alert = await this.alertController.create({
       message: 'Please Enter Correct OTP',
       buttons: ['OK'],

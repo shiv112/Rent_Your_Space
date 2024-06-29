@@ -14,7 +14,6 @@ import {
 import { CustomValidatorsDirective } from 'src/app/shared/directives/custom-validators.directive';
 import { UserService } from '../user.service';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -23,6 +22,7 @@ import { UserService } from '../user.service';
 export class RegisterComponent implements OnInit {
   public error = false;
   public registerForm: UntypedFormGroup;
+  data: any;
 
   constructor(
     public modalController: ModalController,
@@ -73,22 +73,42 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
   // call when user hit register button
   public async submit() {
+    // loader start
     const loading = await this.presentLoading();
     loading.present();
     try {
       const { full_name, email, password, mobile_number } =
         this.registerForm.value;
-      await this.user.register(full_name, email, password, mobile_number);
-    } catch (error) {
-      await loading.dismiss();
-      console.log("inside catch register");
-      if (error.error.text === 'already registered' && error.status === 200) {
-        this.alertMob();
-      } else if (error.error.text === 'done' && error.status === 200) {
+      this.data = await this.user.register(
+        full_name,
+        email,
+        password,
+        mobile_number
+      );
+      if (
+        JSON.stringify(this.data.status_code) === '200' &&
+        this.data.message === 'done'
+      ) {
+        // loader end
+        await loading.dismiss();
         this.navToSigin();
+      } else if (
+        JSON.stringify(this.data.status_code) === '200' &&
+        this.data.message === 'already registered'
+      ) {
+        // loader end
+        await loading.dismiss();
+        this.alertMob();
       } else {
+        // loader end
+        await loading.dismiss();
         this.alertServer();
       }
+    } catch (error) {
+      // loader end
+      await loading.dismiss();
+      // when api crash like cors error
+      alert(error.statusText);
     }
   }
   // call when user successfully registered
@@ -119,19 +139,18 @@ export class RegisterComponent implements OnInit {
       message: 'Please wait...',
     });
   }
-
 }
 
 //----------------------- unused code delete it-----------------
 
-  // private async showToast(message: string, color = 'success') {
-  //   const toast = await this.toastCtrl.create({
-  //     message,
-  //     duration: 2000,
-  //     color,
-  //   });
-  //   toast.present();
-  // }
+// private async showToast(message: string, color = 'success') {
+//   const toast = await this.toastCtrl.create({
+//     message,
+//     duration: 2000,
+//     color,
+//   });
+//   toast.present();
+// }
 
 // public async submit() {
 //   if (this.registerForm.invalid) {
