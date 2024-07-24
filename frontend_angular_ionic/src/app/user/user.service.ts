@@ -5,6 +5,7 @@ import { headerDict } from '../shared/utility';
 import { BehaviorSubject, Observable, catchError, firstValueFrom } from 'rxjs';
 import { User } from '../shared/interface/user';
 import { StorageService } from '../shared/services/storage/storage.service';
+import { ActivatedRoute } from '@angular/router';
 
 const url = environment.api.server;
 const requestOptions = {
@@ -15,23 +16,21 @@ const requestOptions = {
   providedIn: 'root',
 })
 export class UserService {
-  public apiUrl = 'https://backend-python-mongodb.onrender.com/';
-  public user$: Observable<User>;
-  private readonly userSub = new BehaviorSubject<User>(null);
+  public apiUrl = 'https://backend-python-mongodb.vercel.app/';
+  public user$: Observable<any>;
+  public  userSub = new BehaviorSubject<any>("");
+  public  userSessionSub = new BehaviorSubject<{isSession:any,userName:any}>({isSession:null,userName:null});
+  private readonly storageKey = 'userSession';
+  isUserInSession:any;
   result: any;
   response: any;
+  userSession:any;
+  userName:string;
 
-  constructor(private http: HttpClient, private storage: StorageService) {
-    this.user$ = this.userSub.asObservable();
-    // Access Stored User
-    this.storage.init().then(() => {
-      this.storage.getUser().then((user) => {
-        if (user) {
-          this.updateUser(user);
-        }
-      });
-    });
+  constructor(private http: HttpClient, private storage: StorageService, public route: ActivatedRoute) {
+    
   }
+  
 
   public get user(): User {
     return this.userSub.getValue();
@@ -42,8 +41,15 @@ export class UserService {
   }
 
   public async signOut() {
-    this.userSub.next(null);
-    this.storage.removeUser();
+
+    try{
+     const response = firstValueFrom(this.http.get(this.apiUrl+'logout'));
+     return response;
+    }
+    catch(error){
+      throw error;
+    }
+   
   }
   // call when user entered mobile number
   async sendOtp(obj: any) {
@@ -76,37 +82,10 @@ export class UserService {
 
   public async signIn(email: string, password: string) {
     try {
-      const result = await firstValueFrom(
-        this.http.post<User>(
-          url + 'auth/signin',
-          {
-            email,
-            password,
-          },
-          requestOptions
-        )
-      );
-      await this.updateUser(result);
-      return result;
-    } catch (error) {
-      console.log('err', error);
-      return error;
-    }
-  }
-
-  public async register(
-    full_name: string,
-    email: string,
-    password: string,
-    mobile_number: number
-  ){
-    try {
-      const response = await firstValueFrom(
-        this.http.post<User>(this.apiUrl + 'create_user', {
-          full_name,
+      const response = firstValueFrom(
+        this.http.post<User>(this.apiUrl + 'login_user_manual', {
           email,
           password,
-          mobile_number
         })
       );
       return response;
@@ -114,8 +93,33 @@ export class UserService {
       throw error;
     }
   }
-  private updateUser(user: User) {
-    this.userSub.next(user);
-    this.storage.setUser(user);
+
+  public async register(
+    full_name: string,
+    email: string,
+    password: string,
+    mobile_numb: number
+  ) {
+    try {
+      let mobile_number = '+91' + mobile_numb;
+      const response = await firstValueFrom(
+        this.http.post<User>(this.apiUrl + 'create_user', {
+          full_name,
+          email,
+          password,
+          mobile_number,
+        })
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
   }
+
+  headerDynVal(isSession:any,userName:any){
+     this.isUserInSession = isSession;
+     this.userName = userName;
+    this.userSessionSub.next({isSession,userName});
+  }
+
 }

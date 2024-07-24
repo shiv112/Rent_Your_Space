@@ -1,3 +1,4 @@
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Sign In With OTP</ion-title>
@@ -109,7 +110,7 @@
         </form>
       </ion-card-content>
       <!------------------- Enter OTP form which we received in mob---------------------------- -->
-      <ion-card-content *ngIf="!sendOtpSuccess">
+      <ion-card-content *ngIf="!sendOtpSuccess && !isNewUser">
         <form [formGroup]="enterOtpForm">
           <ion-list>
             <ion-item>
@@ -138,6 +139,42 @@
                 >Password Signin</ion-button
               >
             </div>
+          </ion-list>
+        </form>
+      </ion-card-content>
+      <!------------------- Found New User ---------------------------- -->
+      <ion-card-content *ngIf="isNewUser">
+        <!-- [formGroup]="" (submit)="" -->
+        <form>
+          <ion-list>
+            <ion-item>
+              <ion-input
+                labelPlacement="floating"
+                type="text"
+                label="Enter Full Name"
+                formControlName="fullName"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                labelPlacement="floating"
+                type="text"
+                label="Email"
+                formControlName="email"
+              ></ion-input>
+            </ion-item>
+
+            <ion-button
+              size="large"
+              class="ion-margin-top"
+              expand="full"
+              color="primary"
+              type="submit"
+            >
+              <!-- [disabled]=""
+            (click)="" -->
+              Save
+            </ion-button>
           </ion-list>
         </form>
       </ion-card-content>

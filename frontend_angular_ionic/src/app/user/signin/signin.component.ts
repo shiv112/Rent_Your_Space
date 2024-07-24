@@ -23,6 +23,7 @@ export class SigninComponent implements OnInit {
   public showSocial = false;
   public signinStatus: Boolean = true;
   public sendOtpSuccess: Boolean = true;
+  public isNewUser: Boolean;
   data: any;
 
   constructor(
@@ -52,11 +53,38 @@ export class SigninComponent implements OnInit {
   ngOnInit() {
     // call when sigin component reloads
     this.route.params.subscribe((params) => {
-      console.log('I am sigin page');
-      console.log(params);
       this.signinStatus = true;
       this.sendOtpSuccess = true;
     });
+  }
+
+  // call when user sigin with password
+
+  public async signInPwd() {
+    // loader start
+    const loading = await this.presentLoading();
+    loading.present();
+    try {
+      const { email, password } = this.signinpwdForm.value;
+      this.data = await this.user.signIn(email, password);
+      // loader end
+      await loading.dismiss();
+       if (JSON.stringify(this.data.status_code) === '200') {
+        // loader end
+        await loading.dismiss();
+        this.user.headerDynVal(this.data.session,this.data.full_name);
+        this.router.navigateByUrl('/properties');
+      } else {
+        // loader end
+        await loading.dismiss();
+        this.alertServer();
+      }
+    } catch (error) {
+      // loader end
+      await loading.dismiss();
+      // when api crash like cors error
+      alert(error.statusText);
+    }
   }
 
   // call when user entered mobile number
@@ -89,10 +117,22 @@ export class SigninComponent implements OnInit {
     loading.present();
     try {
       this.data = await this.user.enterOtp(this.enterOtpForm.value);
-      if (JSON.stringify(this.data.status_code) === '200') {
+      if (
+        JSON.stringify(this.data.status_code) === '200' &&
+        this.data.is_new_user === 'no'
+      ) {
+        // existing user
         // loader end
         await loading.dismiss();
         this.router.navigateByUrl('/properties');
+      } else if (
+        JSON.stringify(this.data.status_code) === '200' &&
+        this.data.is_new_user === 'yes'
+      ) {
+        // new user
+        // loader end
+        await loading.dismiss();
+        this.isNewUser = true;
       } else {
         // loader end
         await loading.dismiss();

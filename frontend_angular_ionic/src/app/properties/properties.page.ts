@@ -9,7 +9,7 @@ import { PropertiesNewComponent } from './properties-new-modal/properties-new.co
 import { PropertiesUploadsComponent } from './properties-uploads-modal/properties-uploads.component';
 import { PropertiesListComponent } from './properties-list/properties-list.component';
 import { User } from '../shared/interface/user';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-properties',
@@ -23,6 +23,9 @@ export class PropertiesPage implements OnInit, OnDestroy {
   public properties: Property[] = [];
   public ownedPropertiesOnly = signal(false);
   public filterBy: PropertyType[] = [];
+  public user$: Observable<any>;
+  public  userSub = new BehaviorSubject<any>("");
+  public isUser:boolean;
   public filters = [
     {
       value: PropertyType.residential,
@@ -64,9 +67,13 @@ export class PropertiesPage implements OnInit, OnDestroy {
     private userService: UserService,
     private router: Router,
     private toastCtrl: ToastController,
-  ) { }
+  ) {}
 
-  async ngOnInit() {
+  async ngOnInit() { 
+    this.userService.userSessionSub.subscribe(({isSession,userName}) => {
+      this.isUser = isSession; 
+      //this.userName = userName
+    }); 
     this.userService.user$.pipe(takeUntil(this.unSubscribe$)).subscribe((val) => {
       console.log('subscsriptoon')
       this.user = val
@@ -79,16 +86,16 @@ export class PropertiesPage implements OnInit, OnDestroy {
   }
 
   async presentModal() {
-    const user = this.userService.user;
-    if (!user) {
-      this.router.navigateByUrl('/user/signin');
-      this.toastCtrl.create({
-        message: 'Please sign in, to continue',
-        duration: 3000,
-        color: 'danger'
-      }).then(toast => toast.present());
-      return;
-    }
+    // const user = this.userService.user;
+    // if (!user) {
+    //   this.router.navigateByUrl('/user/signin');
+    //   this.toastCtrl.create({
+    //     message: 'Please sign in, to continue',
+    //     duration: 3000,
+    //     color: 'danger'
+    //   }).then(toast => toast.present());
+    //   return;
+    // }
     const modalPropertiesNew = await this.modalController.create({
       component: PropertiesNewComponent
     });

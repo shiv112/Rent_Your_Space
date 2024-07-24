@@ -38,11 +38,16 @@ export class PropertiesService {
   public readonly property$: Observable<Property>;
   private readonly propertiesSub = new BehaviorSubject<Property[]>([]);
   private readonly propertySub = new BehaviorSubject<Property>(null);
+  public user$: Observable<any>;
+  public  userSub = new BehaviorSubject<any>("");
+  private readonly storageKey = 'userSession';
+
 
   constructor(private http: HttpClient, private userService: UserService) {
     this.properties$ = this.propertiesSub.asObservable();
     this.property$ = this.propertySub.asObservable();
     this.fetchProperties();
+   
   }
 
   public properties_two(): any {
@@ -56,6 +61,7 @@ export class PropertiesService {
 
 
   public get properties(): Property[] {
+   
     return this.propertiesSub.getValue();
   }
 
@@ -72,6 +78,7 @@ export class PropertiesService {
   }
 
   public async fetchProperties(): Promise<void> {
+    
     try {
       this.properties = (
         await firstValueFrom(this.http.get<ResProperties>(propertyUrl))
