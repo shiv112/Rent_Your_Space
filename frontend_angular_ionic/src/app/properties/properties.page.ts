@@ -69,15 +69,21 @@ export class PropertiesPage implements OnInit, OnDestroy {
     private toastCtrl: ToastController,
   ) {}
 
-  async ngOnInit() { 
-    this.userService.userSessionSub.subscribe(({isSession,userName}) => {
-      this.isUser = isSession; 
+  async ngOnInit() {
+    console.log("oninit");
+    this.userService.userSessionSub.subscribe(({isSession}) => {
+      console.log(isSession);
+      this.isUser = isSession;
       //this.userName = userName
     }); 
-    this.userService.user$.pipe(takeUntil(this.unSubscribe$)).subscribe((val) => {
-      console.log('subscsriptoon')
-      this.user = val
-    })
+    // this.userService.user$.pipe(takeUntil(this.unSubscribe$)).subscribe((val) => {
+    //   console.log('subscsriptoon')
+    //   this.user = val
+    // })
+  }
+
+  ngOnChanges(){
+    console.log("onchangesss");
   }
 
   ngOnDestroy(): void {

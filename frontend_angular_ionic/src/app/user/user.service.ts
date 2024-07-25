@@ -19,7 +19,7 @@ export class UserService {
   public apiUrl = 'https://backend-python-mongodb.vercel.app/';
   public user$: Observable<any>;
   public  userSub = new BehaviorSubject<any>("");
-  public  userSessionSub = new BehaviorSubject<{isSession:any,userName:any}>({isSession:null,userName:null});
+  public  userSessionSub = new BehaviorSubject<{isSession:any,userName:any}>({isSession:false,userName:null});
   private readonly storageKey = 'userSession';
   isUserInSession:any;
   result: any;
