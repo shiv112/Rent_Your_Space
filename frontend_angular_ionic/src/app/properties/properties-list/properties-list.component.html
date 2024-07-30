@@ -1,7 +1,112 @@
-<!-- <pre>{{propertData|json}}</pre> -->
- 
-<app-properties-card [property]="propertData"></app-properties-card>
 
+<div class="container">
+  <main class="grid">
+
+<article *ngFor="let prop of properties">
+      <img src="https://housing-images.n7net.in/354cef8f/0d43de9c323c786f75be28c148f1e5d5/v0/medium.jpg" alt="Property Image3" alt="Sample photo">
+      <div class="text">
+        <h3>{{ prop?.propName }}</h3>
+        <p>{{ prop?.propAdd }}.</p>
+        <ion-button
+        (click)="selectProperty(property)"
+        expand="block"
+        class="ion-margin-top"
+        color="primary"
+      >
+        View property
+      </ion-button>
+      </div>
+    </article>
+    
+  </main>
+</div>
+
+<!-- <div class="card-container">
+  <ion-card *ngFor="let prop of properties">
+    <img src="https://housing-images.n7net.in/354cef8f/0d43de9c323c786f75be28c148f1e5d5/v0/medium.jpg" alt="Property Image"/>
+    <ion-card-header>
+      <ion-card-title class="name">
+        {{ prop?.propName }}
+      </ion-card-title>
+      <div>
+        {{ prop?.PropType }}
+      </div>
+      <div>
+        {{ prop?.propAdd }}
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="desc">
+        {{ prop?.propDes }}
+      </div>
+
+      <ion-button
+        (click)="selectProperty(property)"
+        expand="block"
+        class="ion-margin-top"
+        color="primary"
+      >
+        View property
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</div> -->
+
+
+
+<!-- <pre>{{properties | json}}</pre> -->
+<!-- <ng-container *ngFor="let prop of properties">
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="name">
+        {{ prop?.propName }}
+      </ion-card-title>
+      <div>
+        {{ prop?.PropType }}
+      </div>
+      <div>
+        {{ prop?.propAdd }}
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="desc">
+        {{ prop?.propDes }}
+      </div>
+
+      <ion-button
+        (click)="selectProperty(property)"
+        expand="block"
+        class="ion-margin-top"
+        color="primary"
+      >
+        View property
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ng-container> -->
+
+<!-- <img
+    class="profile-image"
+    [src]="property?.images[0]"
+    *ngIf="property?.images?.length"
+  />
+  <img
+    class="profile-image ion-padding-vertical"
+    [src]="'assets/images/no-image.jpeg'"
+    *ngIf="!property?.images || !property?.images.length"
+  /> -->
+
+<!-- <div class="price">
+        {{ property?.price | currency: "PHP" }}
+      </div> -->
+
+<!-- <div>
+        {{ prop?.address }}
+      </div> -->
+<!-- <pre>{{propertData|json}}</pre> -->
+
+<!-- <app-properties-card [property]="propertData"></app-properties-card> -->
 
 <!-- 
 <ion-row *ngIf="!horizontalSlide" class="ion-content-scroll-host">

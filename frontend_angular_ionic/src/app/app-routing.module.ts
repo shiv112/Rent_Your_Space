@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { PropertiesPage } from './properties/properties.page';
 
 const routes: Routes = [
   {
@@ -38,6 +39,9 @@ const routes: Routes = [
   {
     path: 'about',
     loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+  },
+  {
+    path: 'propertiespage', component: PropertiesPage
   }
 ];
 

@@ -33,6 +33,7 @@ interface ResStrings extends ApiResponse {
   providedIn: 'root',
 })
 export class PropertiesService {
+  public apiUrl = 'https://backend-python-mongodb.vercel.app/';
   propertData: any;
   public readonly properties$: Observable<Property[]>;
   public readonly property$: Observable<Property>;
@@ -77,15 +78,21 @@ export class PropertiesService {
     this.propertySub.next(property);
   }
 
-  public async fetchProperties(): Promise<void> {
-    
+  public async fetchProperties(): Promise<any> {
+
     try {
-      this.properties = (
-        await firstValueFrom(this.http.get<ResProperties>(propertyUrl))
-      ).data;
+      const response = await firstValueFrom(this.http.get(this.apiUrl + "properties_get"));
+      return response;
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching data', error);
+      throw error;
     }
+    
+    // try {
+    //   this.properties = (await firstValueFrom(this.http.get<ResProperties>(propertyUrl))).data;
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
   public async fetchProperty(id: string) {
@@ -97,23 +104,23 @@ export class PropertiesService {
       console.error(error);
     }
   }
+  // ------------call when you want to add your property------------------------
+  public async addProperty(propName:string,propAdd:string,propDes:string,propType:string) {
+    console.log(propName,propAdd,propDes,propType);
 
-  public async addProperty(property: Property): Promise<ResProperty> {
-    const token = this.userService.token();
-    try {
-      const res = await firstValueFrom(
-        this.http.post<ResProperty>(
-          propertyUrl,
-          property,
-          requestOptions({ token })
-        )
-      );
+    try{
+      const response = await firstValueFrom(this.http.post<Property>(this.apiUrl+'property_save',
+        {
+        propName,
+        propAdd,
+        propDes,
+        propType
+      })
+    );
+      return response;
 
-      this.properties = [...this.properties, res.data];
-      return res;
-    } catch (error) {
-      console.error(error);
-      return error;
+    }catch(error){
+     throw error;
     }
   }
 

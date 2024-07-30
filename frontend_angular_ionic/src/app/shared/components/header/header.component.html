@@ -22,7 +22,7 @@
       <ion-list>
         <ion-item  *ngIf ="!isUser" routerLink="/user/signin">SignIn</ion-item>
         <ion-item *ngIf ="!isUser" routerLink="/user/register">Register</ion-item>
-        <ion-item *ngIf ="!isUser" routerLink="/user/postyourspace">Post Your Space</ion-item>
+        <!-- <ion-item *ngIf ="!isUser" routerLink="/user/postyourspace">Post Your Space</ion-item> -->
         <ion-item *ngIf ="isUser" (click)="signOut()">Sign Out</ion-item>
       </ion-list>
     </ion-list>

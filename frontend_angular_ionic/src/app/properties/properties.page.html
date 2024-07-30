@@ -1,4 +1,4 @@
-<app-header></app-header>
+
 
 <ion-header [translucent]="true">
   <ion-toolbar>
@@ -103,13 +103,12 @@
 
     <ion-grid>
       <ion-row class="ion-align-items-center ion-margin-top hide-on-mobile">
-        <!-- <ion-col class="heading ion-padding-horizontal">
+        <ion-col class="heading ion-padding-horizontal">
           List of Properties
-        </ion-col> -->
+        </ion-col>
 
         <ion-col class="ion-padding-horizontal">
           <ion-button
-          *ngIf="isUser"
             color="success"
             class="ion-float-right"
             (click)="presentModal()"
@@ -119,11 +118,20 @@
           ></ion-button>
         </ion-col>
       </ion-row>
+
+
       <!-- Card List of Properties -->
-      <app-properties-list
-        #propertyLists
-        (isLoading)="presentLoading()"
-      ></app-properties-list>
+      <app-properties-list></app-properties-list>
+      <!-- <app-properties-list #propertyLists (isLoading)="presentLoading()"></app-properties-list> -->
     </ion-grid>
   </div>
+  
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>Footer</ion-title>
+  </ion-toolbar>
+</ion-footer>
+
+
