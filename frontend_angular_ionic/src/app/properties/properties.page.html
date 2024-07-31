@@ -1,13 +1,11 @@
-
-
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
-
-  <ion-toolbar>
+<ion-app>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title> Header Title </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
     <ion-searchbar
       inputmode="text"
       clearIcon
@@ -16,90 +14,19 @@
       (ionInput)="propertyLists.setSearch($event)"
       placeholder="Search Property"
     ></ion-searchbar>
+  </ion-header>
 
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12" sizeMd="4">
-          <ion-list>
-            <ion-item lines="none">
-              <ion-toggle [disabled]="!user" (ionChange)="switchOwnedProperty($event)" [checked]="ownedPropertiesOnly()">
-                Owned Properties Only
-              </ion-toggle>
-            </ion-item>
-          </ion-list>
-        </ion-col>
-
-        <ion-col size="12" sizeMd="4">
-          <ion-list>
-            <ion-item lines="none">
-              <ion-select
-                multiple="true"
-                [(ngModel)]="filterBy"
-                okText="Confirm"
-                cancelText="Dismiss"
-                label="Filter type:"
-                (ionChange)="propertyLists.setFilters(filterBy)"
-              >
-                <ion-select-option
-                  *ngFor="let filter of filters"
-                  [value]="filter.value"
-                >
-                  {{filter.label}}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-list>
-        </ion-col>
-
-
-
-        <ion-col size="12" sizeMd="4">
-          <ion-list>
-            <ion-item lines="none">
-              <ion-select
-                [(ngModel)]="sortBy"
-                okText="Confirm"
-                cancelText="Dismiss"
-                label="Sort by:"
-                (ionChange)="propertyLists.setSort(sortBy)"
-              >
-                <ion-select-option
-                  *ngFor="let sort of sorts"
-                  [value]="sort.value"
-                >
-                  {{ sort.label}}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-list>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-header>
-
-<ion-header [translucent]="true">
-
-</ion-header>
-
-<ion-fab
-  slot="fixed"
-  vertical="bottom"
-  horizontal="end"
-  class="ion-margin-end show-on-mobile"
->
-  <ion-fab-button (click)="presentModal()" color="success">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-
-<ion-content>
-  <div class="properties-container">
-    <ion-progress-bar
-      style="margin: 4px 0 0 0"
-      type="indeterminate"
-      *ngIf="progressBar"
-    ></ion-progress-bar>
+  <ion-content>
+    <ion-fab
+      slot="fixed"
+      vertical="bottom"
+      horizontal="end"
+      class="ion-margin-end show-on-mobile"
+    >
+      <ion-fab-button (click)="presentModal()" color="success">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
     <ion-grid>
       <ion-row class="ion-align-items-center ion-margin-top hide-on-mobile">
@@ -118,20 +45,13 @@
           ></ion-button>
         </ion-col>
       </ion-row>
-
-
-      <!-- Card List of Properties -->
       <app-properties-list></app-properties-list>
-      <!-- <app-properties-list #propertyLists (isLoading)="presentLoading()"></app-properties-list> -->
     </ion-grid>
-  </div>
-  
-</ion-content>
+  </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>Footer</ion-title>
-  </ion-toolbar>
-</ion-footer>
-
-
+  <ion-footer>
+    <ion-toolbar>
+      <ion-title> Footer Title </ion-title>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>

@@ -119,7 +119,7 @@ export class PropertiesPage implements OnInit, OnDestroy {
 
   public switchOwnedProperty(event: CustomEvent) {
     this.ownedPropertiesOnly.set(event.detail.checked)
-    this.propertyListsComponent.setOwnedPropertiesOnly(event.detail.checked)
+   // this.propertyListsComponent.setOwnedPropertiesOnly(event.detail.checked)
   }
 
   private async presentUploadModal(property: Property) {
