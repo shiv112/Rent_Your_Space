@@ -58,6 +58,7 @@ export class PropertiesNewComponent implements OnInit {
       propAdd: ['', Validators.required],
       propDes: ['', [Validators.required, Validators.minLength(10)]],
       propType: [PropertyType.residential],
+      propRent: ['', Validators.required]
       
     });
   }
@@ -70,13 +71,14 @@ export class PropertiesNewComponent implements OnInit {
     const loading = await this.presentLoading();
     loading.present();
     try {
-      const { propName, propAdd, propDes, propType } = this.propertyForm.value;
+      const { propName, propAdd, propDes, propType, propRent } = this.propertyForm.value;
 
       this.data = await this.propertiesService.addProperty(
         propName,
         propAdd,
         propDes,
-        propType
+        propType,
+        propRent
       );
       // loader end
       await loading.dismiss();

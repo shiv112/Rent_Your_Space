@@ -1,9 +1,9 @@
 <ion-app>
   <ion-header>
     <ion-toolbar>
-      <ion-title> Header Title </ion-title>
+      <ion-title> Rent Your Space </ion-title>
       <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
+        <ion-menu-button class="menu-button"></ion-menu-button>
       </ion-buttons>
     </ion-toolbar>
     <ion-searchbar
@@ -40,9 +40,8 @@
             class="ion-float-right"
             (click)="presentModal()"
           >
-            New Property
-            <ion-icon name="add-circle-outline"></ion-icon
-          ></ion-button>
+           Add Your Space
+          </ion-button>
         </ion-col>
       </ion-row>
       <app-properties-list></app-properties-list>
@@ -51,7 +50,7 @@
 
   <ion-footer>
     <ion-toolbar>
-      <ion-title> Footer Title </ion-title>
+      <ion-title class="ion-text-center"> Target Developers </ion-title>
     </ion-toolbar>
   </ion-footer>
 </ion-app>

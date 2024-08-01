@@ -11,7 +11,6 @@
 
 <ion-content class="form ion-padding">
   <form [formGroup]="propertyForm">
-
     <section>
       <!---- ------------property name---------------- -->
       <ion-item lines="none">
@@ -37,7 +36,7 @@
           errorText="Invalid address, address is required"
         ></ion-input>
       </ion-item>
- <!---- ------------property description---------------- -->
+      <!---- ------------property description---------------- -->
       <ion-item lines="none">
         <ion-textarea
           formControlName="propDes"
@@ -49,7 +48,7 @@
           errorText="Invalid description, too short"
         ></ion-textarea>
       </ion-item>
- <!---- ------------property type---------------- -->
+      <!---- ------------property type---------------- -->
       <ion-list>
         <ion-radio-group formControlName="propType">
           <ion-list-header>
@@ -67,19 +66,29 @@
           </ion-item>
         </ion-radio-group>
       </ion-list>
+      <!---- ------------property Rent---------------- -->
+      <ion-item lines="none">
+        <ion-input
+          type="number"
+          label="Rent:"
+          labelPlacement="floating"
+          formControlName="propRent"
+          fill="outline"
+          helperText="Enter property Rent"
+          errorText="Invalid rent, rent is required"
+        ></ion-input>
+      </ion-item>
     </section>
- <!---- ------------submit your property ---------------- -->
+    <!---- ------------submit your property ---------------- -->
     <ion-button
       expand="block"
       size="large"
       (click)="submit()"
       class="ion-margin"
       color="success"
-      [disabled]="isSubmit"
+      [disabled]="!propertyForm.valid"
     >
-    Submit
+      Submit
     </ion-button>
   </form>
 </ion-content>
-
-

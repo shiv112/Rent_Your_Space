@@ -1,3 +1,22 @@
+<ion-app>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title> Rent Your Space </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button class="menu-button"></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-searchbar
+      inputmode="text"
+      clearIcon
+      debounce="700"
+      animated
+      (ionInput)="propertyLists.setSearch($event)"
+      placeholder="Search Property"
+    ></ion-searchbar>
+  </ion-header>
+</ion-app>
+
 <ion-menu side="start" menuId="first" contentId="main-content">
   <ion-header>
     <ion-toolbar color="primary">
@@ -12,17 +31,14 @@
       <ion-list-header>
         <div class="logo-container">
           <img src="../assets/images/logo.png" alt="logo" />
-          <!-- <div class="logo-title">
-            <a href="https://github.com/eevan7a9/real-estate-management">
-              Real Estate Management
-            </a>
-          </div> -->
         </div>
       </ion-list-header>
       <ion-list>
+        <ion-item  *ngIf ="!isUser" routerLink="/properties">Spaces</ion-item>
+        <ion-item  *ngIf ="!isUser" routerLink="/user/signin">Add Your Space</ion-item>
         <ion-item  *ngIf ="!isUser" routerLink="/user/signin">SignIn</ion-item>
         <ion-item *ngIf ="!isUser" routerLink="/user/register">Register</ion-item>
-        <!-- <ion-item *ngIf ="!isUser" routerLink="/user/postyourspace">Post Your Space</ion-item> -->
+        <ion-item *ngIf ="isUser">Manage</ion-item>
         <ion-item *ngIf ="isUser" (click)="signOut()">Sign Out</ion-item>
       </ion-list>
     </ion-list>
