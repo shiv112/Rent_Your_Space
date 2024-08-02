@@ -1,9 +1,23 @@
 <ion-app>
   <ion-header>
     <ion-toolbar>
-      <ion-title> Rent Your Space </ion-title>
+      <ion-title>List Your Space </ion-title>
       <ion-buttons slot="end">
         <ion-menu-button class="menu-button"></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons class="head-menu" slot="end">
+        <ion-button>
+         Spaces
+        </ion-button>
+        <ion-button  (click)="presentModal()">
+          Post Your Space
+        </ion-button>
+        <ion-button  routerLink="/user/signin">
+          SignIn
+        </ion-button>
+        <ion-button  routerLink="/user/register">
+          Register
+        </ion-button>
       </ion-buttons>
     </ion-toolbar>
     <ion-searchbar
@@ -30,18 +44,19 @@
 
     <ion-grid>
       <ion-row class="ion-align-items-center ion-margin-top hide-on-mobile">
-        <ion-col class="heading ion-padding-horizontal">
+        <!-- <ion-col class="heading ion-padding-horizontal">
           List of Properties
-        </ion-col>
+        </ion-col> -->
 
         <ion-col class="ion-padding-horizontal">
-          <ion-button
+          <!-- <ion-button
             color="success"
             class="ion-float-right"
             (click)="presentModal()"
           >
-           Add Your Space
-          </ion-button>
+            New Property
+            <ion-icon name="add-circle-outline"></ion-icon
+          ></ion-button> -->
         </ion-col>
       </ion-row>
       <app-properties-list></app-properties-list>

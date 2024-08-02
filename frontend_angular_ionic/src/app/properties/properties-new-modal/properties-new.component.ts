@@ -71,14 +71,15 @@ export class PropertiesNewComponent implements OnInit {
     const loading = await this.presentLoading();
     loading.present();
     try {
-      const { propName, propAdd, propDes, propType, propRent } = this.propertyForm.value;
+      const { propName, propAdd, propDes, propType,propRent,propertyImages } = this.propertyForm.value;
 
       this.data = await this.propertiesService.addProperty(
         propName,
         propAdd,
         propDes,
         propType,
-        propRent
+        propRent,
+        propertyImages
       );
       // loader end
       await loading.dismiss();

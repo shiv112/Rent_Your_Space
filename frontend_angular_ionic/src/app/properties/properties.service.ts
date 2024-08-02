@@ -105,8 +105,8 @@ export class PropertiesService {
     }
   }
   // ------------call when you want to add your property------------------------
-  public async addProperty(propName:string,propAdd:string,propDes:string,propType:string,propRent:number) {
-    console.log(propName,propAdd,propDes,propType,propRent);
+  public async addProperty(propName:string,propAdd:string,propDes:string,propType:string,propRent:number,propertyImages:any) {
+    console.log(propName,propAdd,propDes,propType,propRent,propertyImages);
 
     try{
       const response = await firstValueFrom(this.http.post<Property>(this.apiUrl+'property_save',
@@ -115,7 +115,8 @@ export class PropertiesService {
         propAdd,
         propDes,
         propType,
-        propRent
+        propRent,
+        propertyImages
       })
     );
       return response;

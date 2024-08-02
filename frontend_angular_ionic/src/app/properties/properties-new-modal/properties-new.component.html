@@ -11,6 +11,7 @@
 
 <ion-content class="form ion-padding">
   <form [formGroup]="propertyForm">
+
     <section>
       <!---- ------------property name---------------- -->
       <ion-item lines="none">
@@ -36,7 +37,7 @@
           errorText="Invalid address, address is required"
         ></ion-input>
       </ion-item>
-      <!---- ------------property description---------------- -->
+ <!---- ------------property description---------------- -->
       <ion-item lines="none">
         <ion-textarea
           formControlName="propDes"
@@ -48,7 +49,7 @@
           errorText="Invalid description, too short"
         ></ion-textarea>
       </ion-item>
-      <!---- ------------property type---------------- -->
+ <!---- ------------property type---------------- -->
       <ion-list>
         <ion-radio-group formControlName="propType">
           <ion-list-header>
@@ -78,8 +79,14 @@
           errorText="Invalid rent, rent is required"
         ></ion-input>
       </ion-item>
+      <!---- ------------property upload---------------- -->
+      <ion-item>
+        <input type="file" (change)="onFileSelected($event)" formControlName="propertyImages" />
+      </ion-item>
+      <ion-button expand="full" (click)="uploadFile()">Upload</ion-button>
+
     </section>
-    <!---- ------------submit your property ---------------- -->
+ <!---- ------------submit your property ---------------- -->
     <ion-button
       expand="block"
       size="large"
@@ -88,7 +95,8 @@
       color="success"
       [disabled]="!propertyForm.valid"
     >
-      Submit
+    Submit
     </ion-button>
   </form>
 </ion-content>
+

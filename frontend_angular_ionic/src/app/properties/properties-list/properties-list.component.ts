@@ -27,21 +27,22 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    // loader start
-    const loading = await this.presentLoading();
-    loading.present();
+  
     this.getProperties();
-    // loader end
-    await loading.dismiss();
   }
 
   ngOnDestroy() {}
 
-  private getProperties() {
+  private async getProperties() {
+      // loader start
+      const loading = await this.presentLoading();
+      loading.present();
     this.propertiesService.fetchProperties().then((result) => {
       this.properties = result.data;
       console.log(this.properties);
     });
+      // loader end
+      await loading.dismiss();
   }
 
   // show loader on api calls
