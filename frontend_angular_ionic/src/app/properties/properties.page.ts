@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { PropertyType } from '../shared/enums/property';
 
 import { Property } from '../shared/interface/property';
@@ -60,6 +60,7 @@ export class PropertiesPage implements OnInit, OnDestroy {
     }
   ];
   public user: User;
+  data:any;
   private unSubscribe$ = new Subject<void>();
 
   constructor(
@@ -67,6 +68,8 @@ export class PropertiesPage implements OnInit, OnDestroy {
     private userService: UserService,
     private router: Router,
     private toastCtrl: ToastController,
+    private alertController: AlertController,
+    private toastController: ToastController
   ) {}
 
   async ngOnInit() {
@@ -128,5 +131,42 @@ export class PropertiesPage implements OnInit, OnDestroy {
       componentProps: { property }
     });
     await modalUploads.present();
+  }
+
+  public async signOut() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Are you sure?',
+      message: 'You will be Signed out!!!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {},
+        },
+        {
+          text: 'Sign out',
+          cssClass: 'danger',
+          handler: async () => {
+            this.data = await this.userService.signOut();
+              this.isUser = this.data.session;
+            // this.enquiriesService.resetState();
+            this.showToast();
+            this.router.navigate(['/properties']);
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  private async showToast() {
+    const toast = await this.toastController.create({
+      message: 'Success, you have signed out.',
+      color: 'success',
+      duration: 3000,
+    });
+    toast.present();
   }
 }
