@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 })
 export class PropertiesNewComponent implements OnInit {
   public propertyForm: UntypedFormGroup;
+  imageFile: File;
   public propertyTypes = [
     {
       label: 'residential',
@@ -58,7 +59,8 @@ export class PropertiesNewComponent implements OnInit {
       propAdd: ['', Validators.required],
       propDes: ['', [Validators.required, Validators.minLength(10)]],
       propType: [PropertyType.residential],
-      propRent: ['', Validators.required]
+      propRent: ['', Validators.required],
+      propertyImages:['',Validators.required]
       
     });
   }
@@ -71,16 +73,28 @@ export class PropertiesNewComponent implements OnInit {
     const loading = await this.presentLoading();
     loading.present();
     try {
-      const { propName, propAdd, propDes, propType,propRent,propertyImages } = this.propertyForm.value;
+      //  const formData = new FormData();
+      const { propName, propAdd, propDes, propType,propRent } = this.propertyForm.value;
+      const json= {
+        propName: propName,
+        propAdd: propAdd,
+        propDes: propDes,
+        propType: propType,
+        propRent: propRent,
+      };
 
-      this.data = await this.propertiesService.addProperty(
-        propName,
-        propAdd,
-        propDes,
-        propType,
-        propRent,
-        propertyImages
-      );
+
+    //   formData.append('propName', propName);
+    //   formData.append('propAdd', propAdd);
+    //   formData.append('propDes', propDes);
+    //   formData.append('propType', propType);
+    //   formData.append('propRent', propRent);
+    //   formData.append('propertyImages :', propertyImages);
+
+    //  console.log( this.formDataToObject(formData));
+   
+
+      this.data = await this.propertiesService.addProperty(json,this.imageFile);
       // loader end
       await loading.dismiss();
       this.router.navigateByUrl('/propertiespage');
@@ -108,6 +122,11 @@ export class PropertiesNewComponent implements OnInit {
     //   this.presentToast('Error:' + message, 'danger');
     //   return;
     // this.presentToast('Error: Invalid, please fill the form properly', 'danger');
+  }
+
+  onFileSelected(event: any){
+    this.imageFile = event.target.files[0].name;
+    // console.log(event.target.files[0].name);
   }
 
   // call when api calling inprogress
@@ -170,4 +189,22 @@ export class PropertiesNewComponent implements OnInit {
     });
     toast.present();
   }
+
+  formDataToObject(formData: FormData): { [key: string]: any } {
+    const obj: { [key: string]: any } = {};
+    formData.forEach((value, key) => {
+      // For files, get the file name or other properties
+      if (value instanceof File) {
+        obj[key] = {
+          name: value.name,
+          size: value.size,
+          type: value.type,
+        };
+      } else {
+        obj[key] = value;
+      }
+    });
+    return obj;
+  }
+  
 }

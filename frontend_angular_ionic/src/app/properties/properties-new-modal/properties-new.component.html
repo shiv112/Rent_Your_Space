@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content class="form ion-padding">
-  <form [formGroup]="propertyForm">
+  <form [formGroup]="propertyForm" enctype="multipart/form-data">
 
     <section>
       <!---- ------------property name---------------- -->
@@ -83,7 +83,7 @@
       <ion-item>
         <input type="file" (change)="onFileSelected($event)" formControlName="propertyImages" />
       </ion-item>
-      <ion-button expand="full" (click)="uploadFile()">Upload</ion-button>
+      <!-- <ion-button expand="full" (click)="uploadFile()">Upload</ion-button> -->
 
     </section>
  <!---- ------------submit your property ---------------- -->
