@@ -11,16 +11,14 @@ const routes: Routes = [
   //   redirectTo: 'properties',
   //   pathMatch: 'full',
   // },
+  
   {
     path: '', component: PropertiesPage
   },
   {
     path: 'propertiespage', component: PropertiesPage
   }
-  // {
-  //   path: 'properties',
-  //   component: PropertiesListComponent
-  // }
+
 ];
 
 @NgModule({

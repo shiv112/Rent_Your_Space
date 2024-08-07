@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, Platform, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, Platform, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
@@ -15,6 +15,9 @@ import { Enquiry } from './shared/interface/enquiry';
 
 // Register swiper js
 import { register } from 'swiper/element/bundle';
+import { PropertiesNewComponent } from './properties/properties-new-modal/properties-new.component';
+import { PropertiesUploadsComponent } from './properties/properties-uploads-modal/properties-uploads.component';
+import { Property } from './shared/interface/property';
 register();
 
 
@@ -25,7 +28,45 @@ register();
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+
+  constructor(
+    public modalController: ModalController,
+    private userService: UserService,
+    private router: Router,
+    private toastCtrl: ToastController,
+    private alertController: AlertController,
+    private toastController: ToastController
+  ) {}
   ngOnInit() {}
+
+  async presentModal() {
+    // const user = this.userService.user;
+    // if (!user) {
+    //   this.router.navigateByUrl('/user/signin');
+    //   this.toastCtrl.create({
+    //     message: 'Please sign in, to continue',
+    //     duration: 3000,
+    //     color: 'danger'
+    //   }).then(toast => toast.present());
+    //   return;
+    // }
+    const modalPropertiesNew = await this.modalController.create({
+      component: PropertiesNewComponent
+    });
+    await modalPropertiesNew.present();
+    const { data } = await modalPropertiesNew.onDidDismiss();
+    if (data) {
+      this.presentUploadModal(data);
+    }
+  }
+
+  private async presentUploadModal(property: Property) {
+    const modalUploads = await this.modalController.create({
+      component: PropertiesUploadsComponent,
+      componentProps: { property }
+    });
+    await modalUploads.present();
+  }
 }
 
 

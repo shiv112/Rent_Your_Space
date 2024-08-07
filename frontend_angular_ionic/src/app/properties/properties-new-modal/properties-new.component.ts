@@ -92,7 +92,6 @@ export class PropertiesNewComponent implements OnInit {
     //   formData.append('propertyImages :', propertyImages);
 
     //  console.log( this.formDataToObject(formData));
-   
 
       this.data = await this.propertiesService.addProperty(json,this.imageFile);
       // loader end

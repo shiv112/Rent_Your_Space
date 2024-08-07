@@ -11,6 +11,7 @@ import { SigninComponent } from './signin/signin.component';
 import { UserPage } from './user.page';
 import { UserOtpComponent } from './user-otp/user-otp.component';
 import { PropertiesNewComponent } from '../properties/properties-new-modal/properties-new.component';
+import { UserPropertiesComponent } from './user-properties/user-properties.component';
 
 const routes: Routes = [
   {
@@ -60,6 +61,10 @@ const routes: Routes = [
     path: 'postyourspace',
     component: PropertiesNewComponent
     // canActivate: [AuthGuard],
+  },
+  {
+    path: 'userprop',
+    component: UserPropertiesComponent,
   }
   // {
   //   path: '**',

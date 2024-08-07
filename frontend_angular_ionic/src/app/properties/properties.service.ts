@@ -108,11 +108,13 @@ export class PropertiesService {
   public async addProperty(json: any, file: File) {
 
     try{
+      const formData: FormData = new FormData();
+      formData.append('json', JSON.stringify(json));
+      formData.append('file', file);
+      console.log(formData.get("json"));
       const response = await firstValueFrom(this.http.post<Property>(this.apiUrl+'property_save',
-        {
-          json,
-          file
-      })
+        formData
+      )
     );
       return response;
 
