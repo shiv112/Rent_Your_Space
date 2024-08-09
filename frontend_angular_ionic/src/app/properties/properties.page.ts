@@ -26,39 +26,6 @@ export class PropertiesPage implements OnInit, OnDestroy {
   public user$: Observable<any>;
   public  userSub = new BehaviorSubject<any>("");
   public isUser:boolean;
-  public filters = [
-    {
-      value: PropertyType.residential,
-      label: 'Residential'
-    },
-    {
-      value: PropertyType.commercial,
-      label: 'Commercial'
-    },
-    {
-      value: PropertyType.industrial,
-      label: 'Industrial'
-    },
-    {
-      value: PropertyType.land,
-      label: 'Land'
-    },
-  ];
-  public sortBy = 'latest';
-  public sorts = [
-    {
-      value: 'latest',
-      label: 'Latest'
-    },
-    {
-      value: 'name',
-      label: 'Name'
-    },
-    {
-      value: 'price',
-      label: 'Price'
-    }
-  ];
   public user: User;
   data:any;
   private unSubscribe$ = new Subject<void>();
