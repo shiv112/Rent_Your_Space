@@ -83,16 +83,6 @@ export class PropertiesNewComponent implements OnInit {
         propRent: propRent,
       };
 
-
-    //   formData.append('propName', propName);
-    //   formData.append('propAdd', propAdd);
-    //   formData.append('propDes', propDes);
-    //   formData.append('propType', propType);
-    //   formData.append('propRent', propRent);
-    //   formData.append('propertyImages :', propertyImages);
-
-    //  console.log( this.formDataToObject(formData));
-
       this.data = await this.propertiesService.addProperty(json,this.imageFile);
       // loader end
       await loading.dismiss();
@@ -124,10 +114,16 @@ export class PropertiesNewComponent implements OnInit {
   }
 
   onFileSelected(event: any){
-    this.imageFile = event.target.files[0].name;
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.imageFile = input.files[0];
+    } 
+    // this.imageFile = event.target.files[0].name;
+    // console.log(this.imageFile);
     // console.log(event.target.files[0].name);
   }
 
+ 
   // call when api calling inprogress
   private async presentLoading() {
     return await this.loadingController.create({

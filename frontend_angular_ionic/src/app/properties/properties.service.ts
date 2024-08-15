@@ -105,19 +105,16 @@ export class PropertiesService {
     }
   }
   // ------------call when you want to add your property------------------------
-  public async addProperty(json: any, file: File) {
+  public async addProperty(json: any, file: File | null = null) {
 
     try{
-      const formData: FormData = new FormData();
-      formData.append('json', JSON.stringify(json));
-      formData.append('file', file);
-      console.log(formData.get("json"));
-      const response = await firstValueFrom(this.http.post<Property>(this.apiUrl+'property_save',
-        formData
-      )
-    );
-      return response;
 
+      const formData = new FormData();
+      formData.append('json',JSON.stringify(json));
+        formData.append('file',file, file.name);
+  
+      const response = await firstValueFrom(this.http.post<Property>(this.apiUrl+'property_save',formData));
+      return response;
     }catch(error){
      throw error;
     }
