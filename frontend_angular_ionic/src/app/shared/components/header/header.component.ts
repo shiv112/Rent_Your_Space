@@ -49,10 +49,21 @@ export class HeaderComponent implements OnInit {
     public route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
-    this.userService.userSessionSub.subscribe(({isSession,userName}) => {
-      this.isUser = isSession; 
-      this.userName = userName
+  // ngOnInit() {
+  //   console.log("header ngoninit");
+  //   this.userService.userSessionSub.subscribe(({isSession,userName}) => {
+  //     this.isUser = isSession; 
+  //     this.userName = userName;
+  //     console.log("header ngoninit",this.isUser);
+  //   }); 
+  // }
+
+  async ngOnInit() {
+    console.log("header oninit");
+    this.userService.userSessionSub.subscribe(({isSession}) => {
+      console.log("prop session",isSession);
+      this.isUser = isSession;
+      //this.userName = userName
     }); 
   }
  

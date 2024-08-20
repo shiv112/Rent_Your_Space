@@ -42,14 +42,10 @@ export class PropertiesPage implements OnInit, OnDestroy {
   async ngOnInit() {
     console.log("oninit");
     this.userService.userSessionSub.subscribe(({isSession}) => {
-      console.log(isSession);
+      console.log("prop session",isSession);
       this.isUser = isSession;
       //this.userName = userName
     }); 
-    // this.userService.user$.pipe(takeUntil(this.unSubscribe$)).subscribe((val) => {
-    //   console.log('subscsriptoon')
-    //   this.user = val
-    // })
   }
 
   ngOnChanges(){

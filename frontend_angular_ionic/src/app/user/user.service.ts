@@ -20,12 +20,12 @@ export class UserService {
   public user$: Observable<any>;
   public  userSub = new BehaviorSubject<any>("");
   public  userSessionSub = new BehaviorSubject<{isSession:any,userName:any}>({isSession:false,userName:null});
-  private readonly storageKey = 'userSession';
   isUserInSession:any;
   result: any;
   response: any;
   userSession:any;
   userName:string;
+  userId:any;
 
   constructor(private http: HttpClient, private storage: StorageService, public route: ActivatedRoute) {
     
@@ -81,6 +81,7 @@ export class UserService {
   }
 
   public async signIn(email: string, password: string) {
+    // this.userId = _id ;
     try {
       const response = firstValueFrom(
         this.http.post<User>(this.apiUrl + 'login_user_manual', {

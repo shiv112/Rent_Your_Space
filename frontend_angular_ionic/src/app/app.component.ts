@@ -29,15 +29,71 @@ register();
 })
 export class AppComponent implements OnInit {
 
+   public isUser: Boolean = false;
+
   constructor(
     public modalController: ModalController,
     private userService: UserService,
     private router: Router,
     private toastCtrl: ToastController,
     private alertController: AlertController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private enquiriesService: EnquiriesService
   ) {}
-  ngOnInit() {}
+  // ngOnInit() {
+  //   console.log( "isuser",this.isUser);
+  //   this.userService.userSub.subscribe((user) => {
+  //     if (user === 'user_in_session') {
+  //       this.isUser = true;
+  //       console.log( "isuser",this.isUser);
+  //     }
+  // });
+  // }
+
+  async ngOnInit() {
+    console.log("oninit");
+    this.userService.userSessionSub.subscribe(({isSession}) => {
+      console.log("prop session",isSession);
+      this.isUser = isSession;
+      //this.userName = userName
+    }); 
+  }
+
+  public async signOut() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Are you sure?',
+      message: 'You will be Signed out!!!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {},
+        },
+        {
+          text: 'Sign out',
+          cssClass: 'danger',
+          handler: async () => {
+            await this.userService.signOut();
+            this.enquiriesService.resetState();
+            this.showToast();
+            this.router.navigate(['/user/signin']);
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  private async showToast() {
+    const toast = await this.toastController.create({
+      message: 'Success, you have signed out.',
+      color: 'success',
+      duration: 3000,
+    });
+    toast.present();
+  }
 
   async presentModal() {
     // const user = this.userService.user;
@@ -132,41 +188,9 @@ export class AppComponent implements OnInit {
 //   return true;
 // }
 
-// public async signOut() {
-//   const alert = await this.alertController.create({
-//     cssClass: 'my-custom-class',
-//     header: 'Are you sure?',
-//     message: 'You will be Signed out!!!',
-//     buttons: [
-//       {
-//         text: 'Cancel',
-//         role: 'cancel',
-//         cssClass: 'secondary',
-//         handler: () => {},
-//       },
-//       {
-//         text: 'Sign out',
-//         cssClass: 'danger',
-//         handler: async () => {
-//           await this.userService.signOut();
-//           this.enquiriesService.resetState();
-//           this.showToast();
-//           this.router.navigate(['/user/signin']);
-//         },
-//       },
-//     ],
-//   });
-//   await alert.present();
-// }
 
-// private async showToast() {
-//   const toast = await this.toastController.create({
-//     message: 'Success, you have signed out.',
-//     color: 'success',
-//     duration: 3000,
-//   });
-//   toast.present();
-// }
+
+
 
 // private checkServer() {
 //   firstValueFrom(this.http.get(environment.api.server)).then((data) =>

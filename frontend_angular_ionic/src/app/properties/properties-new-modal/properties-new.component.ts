@@ -14,6 +14,7 @@ import { PropertyType } from 'src/app/shared/enums/property';
 import { PropertiesService } from '../properties.service';
 import { PropertiesCoordinatesComponent } from '../properties-coordinates-modal/properties-coordinates.component';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-properties-new',
@@ -23,24 +24,7 @@ import { Router } from '@angular/router';
 export class PropertiesNewComponent implements OnInit {
   public propertyForm: UntypedFormGroup;
   imageFile: File;
-  public propertyTypes = [
-    {
-      label: 'residential',
-      value: PropertyType.residential,
-    },
-    {
-      label: 'commercial',
-      value: PropertyType.commercial,
-    },
-    {
-      label: 'industrial',
-      value: PropertyType.industrial,
-    },
-    {
-      label: 'land',
-      value: PropertyType.land,
-    },
-  ];
+  public isUser: boolean;
   public step = 1;
   public error = false;
   public isSubmit = false;
@@ -52,7 +36,8 @@ export class PropertiesNewComponent implements OnInit {
     private propertiesService: PropertiesService,
     private toastCtrl: ToastController,
     private loadingController: LoadingController,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
     this.propertyForm = this.formBuilder.group({
       propName: ['', [Validators.required, Validators.minLength(4)]],
@@ -65,27 +50,35 @@ export class PropertiesNewComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userService.userSessionSub.subscribe(({isSession}) => {
+      console.log("prop session",isSession);
+      this.isUser = isSession;
+    }); 
+  }
 
   //------------- call when property submit
   public async submit() {
-    // loader start
-    const loading = await this.presentLoading();
-    loading.present();
+      // loader start
+      const loading = await this.presentLoading();
+      loading.present();
+   if(this.isUser){
+  
     try {
       //  const formData = new FormData();
-      const { propName, propAdd, propDes, propType,propRent } = this.propertyForm.value;
-      const json= {
+      const { propName, propAdd, propDes, propType, propRent } = this.propertyForm.value;
+      const json = {
         propName: propName,
         propAdd: propAdd,
         propDes: propDes,
         propType: propType,
         propRent: propRent,
+        userId: this.userService.userId
       };
 
       this.data = await this.propertiesService.addProperty(json,this.imageFile);
       // loader end
-      await loading.dismiss();
+     await loading.dismiss();
       this.router.navigateByUrl('/propertiespage');
     } catch (error) {
       // loader end
@@ -93,6 +86,12 @@ export class PropertiesNewComponent implements OnInit {
       // when api crash like cors error
       alert(error.statusText);
     }
+
+   }else{
+     // loader end
+     await loading.dismiss();
+    this.router.navigate(['/user/signin']);
+   }
 
     // this.isSubmit = true;
     //   const ft = this.propertyForm.get('features').value;

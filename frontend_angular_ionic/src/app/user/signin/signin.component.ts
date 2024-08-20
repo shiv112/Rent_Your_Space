@@ -65,7 +65,7 @@ export class SigninComponent implements OnInit {
     const loading = await this.presentLoading();
     loading.present();
     try {
-      const { email, password } = this.signinpwdForm.value;
+      const { email, password,_id } = this.signinpwdForm.value;
       this.data = await this.user.signIn(email, password);
       // loader end
       await loading.dismiss();
@@ -73,6 +73,7 @@ export class SigninComponent implements OnInit {
         // loader end
         await loading.dismiss();
         this.user.headerDynVal(this.data.session,this.data.full_name);
+        this.user.userId = this.data._id;
         this.router.navigateByUrl('/properties');
       } else {
         // loader end
