@@ -76,9 +76,9 @@ export class AppComponent implements OnInit {
           cssClass: 'danger',
           handler: async () => {
             await this.userService.signOut();
-            this.enquiriesService.resetState();
+           // this.enquiriesService.resetState();
             this.showToast();
-            this.router.navigate(['/user/signin']);
+            this.router.navigate(['/properties']);
           },
         },
       ],

@@ -79,6 +79,8 @@ export class PropertiesNewComponent implements OnInit {
       this.data = await this.propertiesService.addProperty(json,this.imageFile);
       // loader end
      await loading.dismiss();
+      // close add your space popup
+      this.modalCtrl.dismiss();
       this.router.navigateByUrl('/propertiespage');
     } catch (error) {
       // loader end
@@ -90,6 +92,8 @@ export class PropertiesNewComponent implements OnInit {
    }else{
      // loader end
      await loading.dismiss();
+     // close add your space popup
+     this.modalCtrl.dismiss();
     this.router.navigate(['/user/signin']);
    }
 
