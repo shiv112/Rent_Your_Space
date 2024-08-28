@@ -30,10 +30,11 @@ register();
 export class AppComponent implements OnInit {
 
    public isUser: Boolean = false;
+   data: any;
 
   constructor(
     public modalController: ModalController,
-    private userService: UserService,
+    private user: UserService,
     private router: Router,
     private toastCtrl: ToastController,
     private alertController: AlertController,
@@ -50,9 +51,9 @@ export class AppComponent implements OnInit {
   // });
   // }
 
-  async ngOnInit() {
+  ngOnInit() {
     console.log("oninit");
-    this.userService.userSessionSub.subscribe(({isSession}) => {
+    this.user.userSessionSub.subscribe(({isSession}) => {
       console.log("prop session",isSession);
       this.isUser = isSession;
       //this.userName = userName
@@ -75,10 +76,12 @@ export class AppComponent implements OnInit {
           text: 'Sign out',
           cssClass: 'danger',
           handler: async () => {
-            await this.userService.signOut();
+            this.data = await this.user.signOut();
+            this.user.headerDynVal(this.data.session,this.data.full_name);
            // this.enquiriesService.resetState();
             this.showToast();
-            this.router.navigate(['/properties']);
+            //this.ngOnInit();
+            // this.router.navigate(['/properties']);
           },
         },
       ],
