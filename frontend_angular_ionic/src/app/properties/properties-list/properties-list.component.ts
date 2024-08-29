@@ -20,7 +20,7 @@ import { LoadingController } from '@ionic/angular';
 export class PropertiesListComponent implements OnInit, OnDestroy {
   public properties: Property[];
   propertData: any;
-
+ 
   constructor(
     private propertiesService: PropertiesService,
     public loadingController: LoadingController

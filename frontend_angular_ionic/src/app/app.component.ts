@@ -77,9 +77,8 @@ export class AppComponent implements OnInit {
           cssClass: 'danger',
           handler: async () => {
             this.data = await this.user.signOut();
-            this.user.headerDynVal(this.data.session,this.data.full_name);
-           // this.enquiriesService.resetState();
             this.showToast();
+            this.user.headerDynVal(this.data.session,this.data.full_name);
             //this.ngOnInit();
             // this.router.navigate(['/properties']);
           },
