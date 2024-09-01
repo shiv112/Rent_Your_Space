@@ -20,6 +20,7 @@ import { LoadingController } from '@ionic/angular';
 export class PropertiesListComponent implements OnInit, OnDestroy {
   public properties: Property[];
   propertData: any;
+  imageSize = 300; // Set your desired size here
  
   constructor(
     private propertiesService: PropertiesService,
