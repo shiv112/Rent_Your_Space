@@ -3,14 +3,9 @@
     <ion-row>
       <ion-col size="12" size-md="6" size-lg="3" *ngFor="let prop of properties">
         <ion-card>
-          <img [src]="'data:image/png;base64,' + prop.image_file" alt="Base64 Image" [style.width.px]="imageSize" [style.height.px]="imageSize" />
+          <img [src]="'data:image/png;base64,' + prop.image_file" alt="Base64 Image"
+          class="img-sz" />
 
-
-          <!-- <img
-          src="https://res.cloudinary.com/stanza-living/image/upload/f_auto,q_auto,w_600/e_improve/e_sharpen:10/e_saturation:10/f_auto,q_auto/v1662095506/Website/CMS-Uploads/xqpa9nlwlt759oxohgbk.jpg"
-          alt="Property Image3"
-          alt="Sample photo"
-        /> -->
           <ion-card-header>
             <ion-card-title>{{ prop?.propName }}</ion-card-title>
           </ion-card-header>
@@ -18,7 +13,7 @@
            <div>{{ prop?.propAdd }}</div>
            <div>{{ prop?.propRent }}</div>
            <ion-button
-           (click)="selectProperty(property)"
+           (click)="openPropertyModal()"
            expand="block"
            class="ion-margin-top"
            color="primary"

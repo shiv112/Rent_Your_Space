@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 import { Property } from 'src/app/shared/interface/property';
 import { PropertiesService } from '../properties.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
+import { PropertyModalComponent } from '../property-modal/property-modal.component';
 
 @Component({
   selector: 'app-properties-list',
@@ -20,11 +21,11 @@ import { LoadingController } from '@ionic/angular';
 export class PropertiesListComponent implements OnInit, OnDestroy {
   public properties: Property[];
   propertData: any;
-  imageSize = 300; // Set your desired size here
- 
+
   constructor(
     private propertiesService: PropertiesService,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public modalController: ModalController
   ) {}
 
   async ngOnInit() {
@@ -32,6 +33,14 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {}
+
+  async openPropertyModal() {
+    const modal = await this.modalController.create({
+      component: PropertyModalComponent,
+      cssClass: 'my-custom-class'
+    });
+    return await modal.present();
+  }
 
   private async getProperties() {
     // loader start
