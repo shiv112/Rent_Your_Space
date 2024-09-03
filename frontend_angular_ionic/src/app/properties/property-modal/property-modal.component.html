@@ -10,10 +10,21 @@
 </ion-header>
 
 <ion-content>
-  <div class="modal-container">
+  <div class="modal-content">
     <!-- Property Details Section -->
     <div class="property-section">
       <h2>Property Details</h2>
+      <ion-slides pager="true" autoplay="true" loop="true">
+        <ion-slide>
+          <img src="https://via.placeholder.com/800x400?text=Property+Image+1" alt="Property Image 1">
+        </ion-slide>
+        <ion-slide>
+          <img src="https://via.placeholder.com/800x400?text=Property+Image+2" alt="Property Image 2">
+        </ion-slide>
+        <ion-slide>
+          <img src="https://via.placeholder.com/800x400?text=Property+Image+3" alt="Property Image 3">
+        </ion-slide>
+      </ion-slides>
       <p><strong>Address:</strong> 123 Main Street, Springfield</p>
       <p><strong>Type:</strong> Residential</p>
       <p><strong>Size:</strong> 2,500 sq ft</p>
@@ -26,6 +37,7 @@
     <!-- Owner Details Section -->
     <div class="owner-section">
       <h2>Owner Details</h2>
+      <img src="https://via.placeholder.com/150?text=Owner+Image" alt="Owner Image" class="owner-image">
       <p><strong>Name:</strong> John Doe</p>
       <p><strong>Phone:</strong> (555) 123-4567</p>
       <p><strong>Email:</strong> johndoe@example.com</p>

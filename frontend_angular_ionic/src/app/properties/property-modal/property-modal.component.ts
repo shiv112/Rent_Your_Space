@@ -11,6 +11,7 @@ export class PropertyModalComponent implements OnInit {
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {}
+  
 
   dismiss() {
     this.modalController.dismiss();

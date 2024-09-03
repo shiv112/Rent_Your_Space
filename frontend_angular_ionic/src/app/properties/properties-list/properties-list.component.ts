@@ -37,7 +37,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
   async openPropertyModal() {
     const modal = await this.modalController.create({
       component: PropertyModalComponent,
-      cssClass: 'my-custom-class'
+      cssClass: 'prop-detail-css'
     });
     return await modal.present();
   }
