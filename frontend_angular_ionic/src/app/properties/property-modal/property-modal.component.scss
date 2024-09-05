@@ -1,72 +1,69 @@
-
 .modal-container {
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    gap: 20px;
-  }
-  
-  .property-section, .owner-section {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .property-section ion-slides {
-    height: 300px; /* Increased height for the slideshow */
-    margin-bottom: 20px;
-    --bullet-background-active: #000; /* Customize the active bullet color */
-  }
-  
-  .property-section img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-  
-  .owner-section .owner-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-  }
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 20px;
+  background-color: #f2f2f2;
+}
 
-  
+.property-section, .owner-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
 
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: #007bff;
+}
 
-  
-  /* Increase the overall size of the modal */
-//   :host {
-//     --width: 90vw;
-//     --height: 90vh;
-//     max-width: 600px; /* Default max width for smaller screens */
-//     max-height: 800px; /* Default max height for smaller screens */
-//   }
+.section-title ion-icon {
+  margin-right: 8px;
+}
 
-//   :host {
-//     --min-width: 79% !important;
-//     --min-height: 85% !important;
-// }
-  
-  
-//   @media (min-width: 768px) {
-//     .property-section ion-slides {
-//       height: 400px; /* Adjust height for larger screens */
-//     }
-//     :host {
-//         --width: 80vw; /* Slightly reduce width for larger screens */
-//         --height: 80vh; /* Slightly reduce height for larger screens */
-//         max-width: 1200px; /* Increase max width for desktop */
-//         max-height: 900px; /* Increase max height for desktop */
-//       }
-//   }
+.property-section ion-slides {
+  height: 300px;
+  margin-bottom: 20px;
+  --bullet-background-active: #007bff;
+}
 
+.property-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease-in-out;
+}
 
+.property-section img:hover {
+  transform: scale(1.05);
+}
 
+.owner-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
 
+.property-info p, .owner-info p {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
 
+.property-info p ion-icon, .owner-info p ion-icon {
+  margin-right: 8px;
+  color: #007bff;
+}
 
-  
+ion-button {
+  --background-hover: #ff6f61;
+}
