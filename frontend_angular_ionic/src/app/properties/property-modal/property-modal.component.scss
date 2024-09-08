@@ -33,16 +33,40 @@
 }
 
 .property-section img {
-  width: 100%;
+  width: 6%;
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
   transition: transform 0.3s ease-in-out;
 }
 
-.property-section img:hover {
-  transform: scale(1.05);
+ul {
+  display: flex;
 }
+
+li {
+  list-style-type: none;
+  padding: 10px;
+  position: relative;
+}
+.large {
+  position: absolute;
+  left: -9999px;
+}
+
+li:hover .large {
+  left: 67%;
+  top: 28%;
+}
+
+.large-image {
+  border-radius: 4px;
+   box-shadow: 1px 1px 3px 3px rgba(127, 127, 127, 0.15);;
+}
+
+// .property-section img:hover {
+//   transform: scale(1.05);
+// }
 
 .owner-image {
   width: 150px;
