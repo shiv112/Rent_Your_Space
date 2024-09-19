@@ -33,36 +33,18 @@
 }
 
 .property-section img {
-  width: 6%;
+  width: 15%;
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
   transition: transform 0.3s ease-in-out;
 }
 
-ul {
-  display: flex;
-}
 
-li {
-  list-style-type: none;
-  padding: 10px;
-  position: relative;
-}
-.large {
-  position: absolute;
-  left: -9999px;
-}
 
-li:hover .large {
-  left: 67%;
-  top: 28%;
-}
 
-.large-image {
-  border-radius: 4px;
-   box-shadow: 1px 1px 3px 3px rgba(127, 127, 127, 0.15);;
-}
+
+
 
 // .property-section img:hover {
 //   transform: scale(1.05);
@@ -90,4 +72,65 @@ li:hover .large {
 
 ion-button {
   --background-hover: #ff6f61;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.small-images {
+  display: flex;
+  gap: 15px; /* Space between smaller images */
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.small-image {
+  max-width: 150px; /* Medium size for smaller images */
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.large-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  padding: 20px;
+}
+
+.large-image {
+  max-width: 60%; /* Default large image size */
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+/* On hover, enlarge the large image smoothly */
+.large-image-container:hover .large-image {
+  transform: scale(1.05); /* Slight enlargement on hover */
+}
+
+/* Responsive adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+  .small-image {
+    max-width: 100px; /* Adjust small image size for mobile */
+  }
+
+  .large-image {
+    max-width: 80%; /* Adjust large image size for mobile */
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .small-image {
+    max-width: 80px; /* Smaller images for small screens */
+  }
+
+  .large-image {
+    max-width: 90%; /* Adjust large image size further for small screens */
+  }
 }

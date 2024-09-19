@@ -116,15 +116,31 @@ export class PropertiesNewComponent implements OnInit {
     // this.presentToast('Error: Invalid, please fill the form properly', 'danger');
   }
 
-  onFileSelected(event: any){
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.imageFile = input.files[0];
-    } 
-    // this.imageFile = event.target.files[0].name;
-    // console.log(this.imageFile);
-    // console.log(event.target.files[0].name);
+  onFileSelected(event: any): void {
+    const files: FileList = event.target.files;
+    if (files.length > 0) {
+      // Handle the files here
+      for (let i = 0; i < files.length; i++) {
+        console.log(files[i]); // or process the files as needed
+        this.imageFile = files[i];
+      }
+    }
   }
+  
+
+  // onFileSelected(event: any){
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files.length > 0) {
+
+  //     for (let i = 0; i < input.files.length; i++) {
+  //       console.log(input[i]); // or process the files as needed
+  //       this.imageFile = input[i];
+  //       // this.imageFile = input.files[0];
+  //     }
+     
+  //   } 
+
+  // }
 
  
   // call when api calling inprogress

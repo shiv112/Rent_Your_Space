@@ -81,8 +81,9 @@
       </ion-item>
       <!---- ------------property upload---------------- -->
       <ion-item>
-        <input type="file" name="file" (change)="onFileSelected($event)"  formControlName="propertyImages" />
+        <input type="file" name="file" (change)="onFileSelected($event)" formControlName="propertyImages" multiple />
       </ion-item>
+      
       <!-- <ion-button expand="full" (click)="uploadFile()">Upload</ion-button> -->
 
     </section>

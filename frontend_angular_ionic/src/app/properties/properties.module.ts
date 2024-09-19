@@ -18,6 +18,7 @@ import { MortgageCalcPageModule } from '../mortgage-calc/mortgage-calc.module';
 import { PropertiesUploadsComponent } from './properties-uploads-modal/properties-uploads.component';
 import { PropertiesGalleryComponent } from './properties-gallery/properties-gallery.component';
 import { PropertiesCurrentImagesComponent } from './properties-uploads-modal/properties-current-images/properties-current-images.component';
+import { PropertyModalComponent } from './property-modal/property-modal.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { PropertiesCurrentImagesComponent } from './properties-uploads-modal/pro
     PropertiesCoordinatesComponent,
     PropertiesUploadsComponent,
     PropertiesGalleryComponent,
-    PropertiesCurrentImagesComponent
+    PropertiesCurrentImagesComponent,
+    PropertyModalComponent
   ],
   exports: [
     PropertiesListComponent,
