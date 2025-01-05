@@ -1,0 +1,110 @@
+/* General Styling for ion-menu and ion-content */
+ion-menu ion-content {
+  --background: var(--ion-item-background, var(--ion-background-color, #fff)); /* Default background color for ion-content */
+}
+
+/* Material Design (md) Specific Styles */
+ion-menu.md ion-content {
+  --padding-start: 8px;  /* Padding at the start (left) in material design */
+  --padding-end: 8px;    /* Padding at the end (right) in material design */
+  --padding-top: 20px;   /* Padding at the top for content */
+  --padding-bottom: 20px; /* Padding at the bottom for content */
+}
+
+ion-menu.md ion-list {
+  padding: 20px 0; /* Padding for the list inside the menu */
+}
+
+ion-menu.md ion-item {
+  --padding-start: 10px;  /* Padding at the start (left) for ion-item */
+  --padding-end: 10px;    /* Padding at the end (right) for ion-item */
+  border-radius: 4px;     /* Border radius for ion-items to make edges rounded */
+}
+
+ion-menu.md ion-item.selected {
+  --background: rgba(var(--ion-color-primary-rgb), 0.14); /* Highlight selected items with primary color at reduced opacity */
+}
+
+ion-menu.md ion-item.selected ion-icon {
+  color: var(--ion-color-primary); /* Change icon color for selected item */
+}
+
+ion-menu.md ion-item ion-icon {
+  color: #616e7e; /* Default icon color for unselected items */
+}
+
+ion-menu.md ion-item ion-label {
+  font-weight: 500; /* Set the font-weight of labels inside ion-items */
+}
+
+/* iOS Specific Styles */
+ion-menu.ios ion-content {
+  --padding-bottom: 20px; /* Padding at the bottom for iOS */
+}
+
+ion-menu.ios ion-list {
+  padding: 20px 0 0 0; /* Top padding for the list in iOS */
+}
+
+ion-menu.ios ion-item {
+  --padding-start: 16px;  /* Padding at the start (left) for ion-item in iOS */
+  --padding-end: 16px;    /* Padding at the end (right) for ion-item in iOS */
+  --min-height: 50px;     /* Minimum height for each item in iOS */
+}
+
+ion-menu.ios ion-item.selected ion-icon {
+  color: var(--ion-color-primary); /* Change icon color for selected item in iOS */
+}
+
+ion-menu.ios ion-item ion-icon {
+  font-size: 24px; /* Increase icon size for iOS */
+  color: #73849a; /* Set icon color for iOS */
+}
+
+/* General Note Styling (for ion-note) */
+ion-note {
+  display: inline-block; /* Make note elements inline */
+  font-size: 16px; /* Set font size for note text */
+  color: var(--ion-color-medium-shade); /* Color for the note text */
+}
+
+/* Selected Item Styling */
+ion-item.selected {
+  --color: var(--ion-color-primary); /* Set text color for selected item */
+}
+
+/* Logo Container and Styling */
+.logo-container {
+  margin: 0 auto; /* Center the logo container horizontally */
+  max-width: 200px; /* Limit the maximum width of the logo */
+  text-align: center; /* Center-align the content within the logo container */
+}
+
+/* Logo Title Styling */
+.logo-title {
+  margin: -10px 0 24px; /* Adjust margin around the logo title */
+}
+
+.logo-title a {
+  font-size: 14px; /* Set font size for the logo title link */
+  color: var(--ion-color-dark-tint); /* Set link color */
+  line-height: 100%; /* Ensure the line height is consistent */
+  text-decoration: none; /* Remove underline from the link */
+}
+
+.menu-button {
+  display: none; /* Show the menu button (hamburger) on smaller screens */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .head-menu {
+    display: none; /* Hide the header menu on smaller screens */
+  }
+
+  .menu-button {
+    display: block; /* Show the menu button (hamburger) on smaller screens */
+  }
+}
+
+/* Remove unused class max-w-400 */

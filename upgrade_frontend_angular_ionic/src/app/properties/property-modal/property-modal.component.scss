@@ -1,0 +1,136 @@
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 20px;
+  background-color: #f2f2f2;
+}
+
+.property-section, .owner-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: #007bff;
+}
+
+.section-title ion-icon {
+  margin-right: 8px;
+}
+
+.property-section ion-slides {
+  height: 300px;
+  margin-bottom: 20px;
+  --bullet-background-active: #007bff;
+}
+
+.property-section img {
+  width: 15%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease-in-out;
+}
+
+
+
+
+
+
+
+// .property-section img:hover {
+//   transform: scale(1.05);
+// }
+
+.owner-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.property-info p, .owner-info p {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.property-info p ion-icon, .owner-info p ion-icon {
+  margin-right: 8px;
+  color: #007bff;
+}
+
+ion-button {
+  --background-hover: #ff6f61;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.small-images {
+  display: flex;
+  gap: 15px; /* Space between smaller images */
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.small-image {
+  max-width: 150px; /* Medium size for smaller images */
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.large-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  padding: 20px;
+}
+
+.large-image {
+  max-width: 60%; /* Default large image size */
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+/* On hover, enlarge the large image smoothly */
+.large-image-container:hover .large-image {
+  transform: scale(1.05); /* Slight enlargement on hover */
+}
+
+/* Responsive adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+  .small-image {
+    max-width: 100px; /* Adjust small image size for mobile */
+  }
+
+  .large-image {
+    max-width: 80%; /* Adjust large image size for mobile */
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .small-image {
+    max-width: 80px; /* Smaller images for small screens */
+  }
+
+  .large-image {
+    max-width: 90%; /* Adjust large image size further for small screens */
+  }
+}

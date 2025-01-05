@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Property Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="modal-content">
+    <!-- Property Details Section -->
+    <div class="property-section">
+      <div class="ion-padding">
+        <ion-grid>
+            <ion-row>
+                <ion-col size-md="6" size="12">
+                  <h2 class="section-title"><ion-icon name="home-outline"></ion-icon> Property Details</h2>
+                  <p><ion-icon name="location-outline"></ion-icon> <strong>Address:</strong> 123 Main Street, Springfield</p>
+                    <p><ion-icon name="cube-outline"></ion-icon> <strong>Type:</strong> Residential</p>
+                    <p><ion-icon name="expand-outline"></ion-icon> <strong>Size:</strong> 2,500 sq ft</p>
+                    <p><ion-icon name="pricetag-outline"></ion-icon> <strong>Price:</strong> $350,000</p>
+                    <p><ion-icon name="bed-outline"></ion-icon> <strong>Bedrooms:</strong> 4</p>
+                    <p><ion-icon name="water-outline"></ion-icon> <strong>Bathrooms:</strong> 3</p>
+                    <p><ion-icon name="calendar-outline"></ion-icon> <strong>Year Built:</strong> 2010</p>
+                </ion-col>
+                <ion-col size-md="6" size="12">
+                  <ul>
+                    <li class="image-container">
+                      <!-- Smaller Images -->
+                      <span class="small-images">
+                        <img src="https://static01.nyt.com/images/2019/03/24/travel/24trending-shophotels1/24trending-shophotels1-superJumbo.jpg" 
+                             alt="Property Image 1" class="small-image" (mouseover)="showLargeImage('img1')">
+                        <img src="https://static.asianpaints.com/content/dam/asianpaintsbeautifulhomes/spaces/bathrooms/in-style-small-washroom-design-ideas/PURPLE-BACKYARD-5.jpg" 
+                             alt="Property Image 2" class="small-image" (mouseover)="showLargeImage('img2')">
+                        <img src="https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/featured-image-kitchen-layouts.jpg" 
+                             alt="Property Image 3" class="small-image" (mouseover)="showLargeImage('img3')">
+                      </span>
+                
+                      <!-- Larger Image Display -->
+                      <span class="large-image-container">
+                        <img *ngIf="currentLargeImage === 'img1'" 
+                             src="https://static01.nyt.com/images/2019/03/24/travel/24trending-shophotels1/24trending-shophotels1-superJumbo.jpg" 
+                             class="large-image" alt="Large Property Image 1">
+                        <img *ngIf="currentLargeImage === 'img2'" 
+                             src="https://static.asianpaints.com/content/dam/asianpaintsbeautifulhomes/spaces/bathrooms/in-style-small-washroom-design-ideas/PURPLE-BACKYARD-5.jpg" 
+                             class="large-image" alt="Large Property Image 2">
+                        <img *ngIf="currentLargeImage === 'img3'" 
+                             src="https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/featured-image-kitchen-layouts.jpg" 
+                             class="large-image" alt="Large Property Image 3">
+                      </span>
+                    </li>
+                  </ul>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    </div>
+
+    <!-- Owner Details Section -->
+    <div class="owner-section">
+      <h2 class="section-title"><ion-icon name="person-outline"></ion-icon> Owner Details</h2>
+      <img src="https://via.placeholder.com/150?text=Owner+Image" alt="Owner Image" class="owner-image">
+      <div class="owner-info">
+        <p><ion-icon name="person-circle-outline"></ion-icon> <strong>Name:</strong> John Doe</p>
+        <p><ion-icon name="call-outline"></ion-icon> <strong>Phone:</strong> (555) 123-4567</p>
+        <p><ion-icon name="mail-outline"></ion-icon> <strong>Email:</strong> johndoe&#64;example.com</p>
+        <p><ion-icon name="location-outline"></ion-icon> <strong>Address:</strong> 456 Elm Street, Springfield</p>
+        <p><ion-icon name="time-outline"></ion-icon> <strong>Owned Since:</strong> 2015</p>
+        <p><ion-icon name="information-circle-outline"></ion-icon> <strong>Additional Info:</strong> Available for viewing on weekends</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

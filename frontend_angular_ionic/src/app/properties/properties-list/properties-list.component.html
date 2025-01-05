@@ -1,25 +1,41 @@
 <div class="container" style="padding-bottom: 3rem;">
+  <!-- Grid layout to display properties -->
   <ion-grid>
     <ion-row>
-      <ion-col size="12" size-md="6" size-lg="3" *ngFor="let prop of properties">
+      <!-- Loop through properties to display each one -->
+      <ion-col 
+        size="12"       <!-- Full-width on small screens -->
+        size-md="6"     <!-- Half-width on medium screens -->
+        size-lg="3"     <!-- Quarter-width on large screens -->
+        *ngFor="let prop of properties"  <!-- Iterate over properties array -->
+      >
+        <!-- Card to display property details -->
         <ion-card>
-          <img [src]="'data:image/png;base64,' + prop.image_file" alt="Base64 Image"
-          class="img-sz" />
-
+          <!-- Display property image using Base64 encoding -->
+          <img 
+            [src]="'data:image/png;base64,' + prop.image_file" 
+            alt="Base64 Image" 
+            class="img-sz" 
+          />
           <ion-card-header>
+            <!-- Display property name -->
             <ion-card-title>{{ prop?.propName }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-           <div>{{ prop?.propAdd }}</div>
-           <div>{{ prop?.propRent }}</div>
-           <ion-button
-           (click)="openPropertyModal()"
-           expand="block"
-           class="ion-margin-top"
-           color="primary"
-         >
-           View property
-         </ion-button>
+            <!-- Display property address -->
+            <div>{{ prop?.propAdd }}</div>
+            <!-- Display property rent -->
+            <div>{{ prop?.propRent }}</div>
+            
+            <!-- Button to open property modal -->
+            <ion-button
+              (click)="openPropertyModal()"  <!-- Trigger method to open modal -->
+              expand="block"                 <!-- Button takes full width -->
+              class="ion-margin-top"         <!-- Add margin at the top -->
+              color="primary"                <!-- Primary color for button -->
+            >
+              View property
+            </ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>

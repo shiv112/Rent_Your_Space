@@ -1,0 +1,44 @@
+<div class="container" style="padding-bottom: 3rem;">
+  <!-- Grid layout to display properties -->
+  <ion-grid>
+    <ion-row>
+      <!-- Loop through properties to display each one -->
+      <ion-col 
+        size="12" 
+        size-md="6" 
+        size-lg="3" 
+        *ngFor="let prop of properties"
+      >
+        <!-- Card to display property details -->
+        <ion-card>
+          <!-- Display property image using Base64 encoding -->
+          <img 
+            [src]="'data:image/png;base64,' + prop.image_file" 
+            alt="Property Image" 
+            class="img-sz" 
+          />
+          <ion-card-header>
+            <!-- Display property name -->
+            <ion-card-title>{{ prop?.propName }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Display property address -->
+            <div>{{ prop?.propAdd }}</div>
+            <!-- Display property rent -->
+            <div>{{ prop?.propRent }}</div>
+            
+            <!-- Button to open property modal -->
+            <ion-button
+              (click)="openPropertyModal()" 
+              expand="block" 
+              class="ion-margin-top" 
+              color="primary"
+            >
+              View property
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

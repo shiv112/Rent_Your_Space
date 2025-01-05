@@ -1,0 +1,33 @@
+
+[
+  {
+    "property_id": 1,
+    "address": "901,ITI Katangi Road Madhotal,Jabalpur",
+    "description": "The spacious living area features floor-to-ceiling windows that flood the space with natural light, while the kitchen is equipped with stainless steel appliances and granite countertops. ",
+    "name": "Sahu Niwas",
+    "type":"Residential",
+    "price":"4000/month",
+    "images":"coming soon",
+    "updatedAt": "coming soon"
+  },
+  {
+    "property_id": 2,
+    "address": "908,Bajrang Nagar,Jabalpur",
+    "description": "The spacious living area features floor-to-ceiling windows that flood the space with natural light, while the kitchen is equipped with stainless steel appliances and granite countertops. ",
+    "name": "Paloha House",
+    "type":"Residential",
+    "price":"4000/month",
+    "images":"coming soon",
+    "updatedAt": "coming soon"
+  },
+  {
+    "property_id": 3,
+    "address": "902,Garha,Jabalpur",
+    "description": "The spacious living area features floor-to-ceiling windows that flood the space with natural light, while the kitchen is equipped with stainless steel appliances and granite countertops. ",
+    "name": "Viskarma Niwas",
+    "type":"Residential",
+    "price":"4000/month",
+    "images":"coming soon",
+    "updatedAt": "coming soon"
+  }
+]

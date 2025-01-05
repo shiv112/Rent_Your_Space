@@ -1,55 +1,70 @@
-<!-- <pre>{{property|json}}</pre> -->
-
+<!-- Iterate over the property array using *ngFor -->
 <ng-container *ngFor="let prop of property">
 
   <ion-card>
+    <!-- Display the property image if available, otherwise show a default "no image" placeholder -->
     <img
-    class="profile-image"
-    [src]="property?.images[0]"
-    *ngIf="property?.images?.length"
-  />
-  <img
-    class="profile-image ion-padding-vertical"
-    [src]="'assets/images/no-image.jpeg'"
-    *ngIf="!property?.images || !property?.images.length"
-  />
+      class="profile-image"
+      [src]="property?.images[0]"
+      *ngIf="property?.images?.length" <!-- Check if images exist -->
+    />
+    <img
+      class="profile-image ion-padding-vertical"
+      [src]="'assets/images/no-image.jpeg'"
+      *ngIf="!property?.images || !property?.images.length" <!-- Show default image if no images -->
+    />
 
     <ion-card-header>
+      <!-- Display property name -->
       <ion-card-title class="name">
         {{ prop?.name }}
       </ion-card-title>
+
+      <!-- Display the property creation date using the Angular date pipe -->
       <div>
         {{ property?.createdAt | date }}
       </div>
+
+      <!-- Display the property address -->
       <div>
         {{ prop?.address }}
       </div>
     </ion-card-header>
+
     <ion-card-content>
+      <!-- Display property description -->
       <div class="desc">
         {{ prop?.description }}
       </div>
+
+      <!-- Display the property price formatted as currency (PHP) -->
       <div class="price">
         {{ property?.price | currency: "PHP" }}
       </div>
+
+      <!-- Button to view property details and trigger the selectProperty method -->
       <ion-button
-      (click)="selectProperty(property)"
-      expand="block"
-      class="ion-margin-top"
-      color="primary"
-    >
-      View property
-    </ion-button>
+        (click)="selectProperty(property)"
+        expand="block"
+        class="ion-margin-top"
+        color="primary"
+      >
+        View property
+      </ion-button>
     </ion-card-content>
   </ion-card>
 </ng-container>
 
+<!-- Optional Block: Displaying property details if the user is the owner -->
+<!-- This part is commented out, but can be activated if needed for showing owner-related info -->
 
 <!-- <ion-card>
+  <!-- Display "Owned" tag if the current user owns the property -->
   <div class="tag" *ngIf="userService.user?.user_id === property.user_id">
     Owned
   </div>
 
+  <!-- Display the first image of the property or the default "no image" -->
   <img
     class="profile-image"
     [src]="property?.images[0]"
@@ -62,24 +77,32 @@
   />
 
   <ion-card-header>
+    <!-- Display a custom badge for the property type -->
     <app-property-badge [type]="property?.type"></app-property-badge>
+
+    <!-- Display the property name -->
     <ion-card-title class="name">
       {{ property?.name }}
     </ion-card-title>
 
+    <!-- Display the property creation date -->
     <div>
       {{ property?.createdAt | date }}
     </div>
   </ion-card-header>
 
   <ion-card-content>
+    <!-- Display the property description -->
     <div class="desc">
       {{ property?.description }}
     </div>
 
+    <!-- Display the price of the property -->
     <div class="price">
       {{ property?.price | currency: "PHP" }}
     </div>
+
+    <!-- Button to view property details -->
     <ion-button
       (click)="selectProperty(property)"
       expand="block"

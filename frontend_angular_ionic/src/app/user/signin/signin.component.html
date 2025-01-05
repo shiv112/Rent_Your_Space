@@ -1,29 +1,25 @@
-
 <ion-app>
+  <!-- Header Section -->
   <ion-header>
     <ion-toolbar>
-      <ion-title>Sigin In </ion-title>
+      <ion-title>Sign In</ion-title>
+
+      <!-- Menu Button -->
       <ion-buttons slot="end">
         <ion-menu-button class="menu-button"></ion-menu-button>
       </ion-buttons>
+
+      <!-- Action Buttons: Spaces, Post Your Space, SignIn, Register -->
       <ion-buttons class="head-menu" slot="end">
-        <ion-button>
-         Spaces
-        </ion-button>
-        <ion-button  (click)="presentModal()">
-          Post Your Space
-        </ion-button>
-        <ion-button  routerLink="/user/signin">
-          SignIn
-        </ion-button>
-        <ion-button  routerLink="/user/register">
-          Register
-        </ion-button>
+        <ion-button>Spaces</ion-button>
+        <ion-button (click)="presentModal()">Post Your Space</ion-button>
+        <ion-button routerLink="/user/signin">Sign In</ion-button>
+        <ion-button routerLink="/user/register">Register</ion-button>
       </ion-buttons>
     </ion-toolbar>
-    
   </ion-header>
 
+  <!-- Content Section -->
   <ion-content>
     <div class="signin-container">
       <ion-card class="signin-card">
@@ -33,10 +29,12 @@
             <div class="source"></div>
           </div>
         </ion-card-header>
-        <!------------------- sign in with password form---------------------------- -->
+
+        <!-- Sign-in with Password Form -->
         <ion-card-content *ngIf="signinStatus && sendOtpSuccess">
           <form [formGroup]="signinpwdForm" (submit)="signInPwd()">
             <ion-list>
+              <!-- Email Input -->
               <ion-item>
                 <ion-input
                   labelPlacement="floating"
@@ -45,12 +43,13 @@
                   formControlName="email"
                 ></ion-input>
               </ion-item>
-              <div
-                class="alert-errors"
-                *ngIf="error && signinForm.get('email').errors"
-              >
+
+              <!-- Email Validation Error -->
+              <div class="alert-errors" *ngIf="error && signinForm.get('email').errors">
                 <app-alert-card content="Email is not valid."></app-alert-card>
               </div>
+
+              <!-- Password Input -->
               <ion-item>
                 <ion-input
                   labelPlacement="floating"
@@ -59,12 +58,13 @@
                   formControlName="password"
                 ></ion-input>
               </ion-item>
+
+              <!-- Authentication Failure Error -->
               <div class="alert-errors" *ngIf="authFailed">
-                <app-alert-card
-                  content="Wrong Email or Password."
-                ></app-alert-card>
+                <app-alert-card content="Wrong Email or Password."></app-alert-card>
               </div>
-  
+
+              <!-- Password Sign In Button -->
               <ion-button
                 [disabled]="!signinpwdForm.valid"
                 size="large"
@@ -75,7 +75,8 @@
               >
                 Password Sign In
               </ion-button>
-  
+
+              <!-- OTP Sign In Button -->
               <ion-button
                 type="submit"
                 (click)="switchSignIn()"
@@ -85,17 +86,20 @@
               >
                 OTP Sign In
               </ion-button>
-  
+
+              <!-- Register Link -->
               <div class="ask-register">
                 First time here? <a [routerLink]="['/user/register']">Register</a>
               </div>
             </ion-list>
           </form>
         </ion-card-content>
-        <!------------------- sign in with mob number form---------------------------- -->
+
+        <!-- Sign-in with Mobile Number Form -->
         <ion-card-content *ngIf="!signinStatus && sendOtpSuccess">
           <form [formGroup]="signinOtpForm" (submit)="submit()">
             <ion-list>
+              <!-- Mobile Number Input -->
               <ion-item>
                 <ion-input
                   labelPlacement="floating"
@@ -104,7 +108,8 @@
                   formControlName="mobile_number"
                 ></ion-input>
               </ion-item>
-  
+
+              <!-- Send OTP Button -->
               <ion-button
                 size="large"
                 class="ion-margin-top"
@@ -116,19 +121,21 @@
               >
                 Send OTP
               </ion-button>
+
+              <!-- Register and Password Sign-in Links -->
               <div class="ask-register">
                 <a [routerLink]="['/user/register']">Register</a>
-                <ion-button class="navSignIn" (click)="navToSignIn()"
-                  >Password Signin</ion-button
-                >
+                <ion-button class="navSignIn" (click)="navToSignIn()">Password Sign-in</ion-button>
               </div>
             </ion-list>
           </form>
         </ion-card-content>
-        <!------------------- Enter OTP form which we received in mob---------------------------- -->
+
+        <!-- Enter OTP Form -->
         <ion-card-content *ngIf="!sendOtpSuccess && !isNewUser">
           <form [formGroup]="enterOtpForm">
             <ion-list>
+              <!-- OTP Input -->
               <ion-item>
                 <ion-input
                   labelPlacement="floating"
@@ -137,7 +144,8 @@
                   formControlName="otp"
                 ></ion-input>
               </ion-item>
-  
+
+              <!-- OTP Sign In Button -->
               <ion-button
                 size="large"
                 class="ion-margin-top"
@@ -149,20 +157,21 @@
               >
                 SIGN IN WITH OTP
               </ion-button>
+
+              <!-- Register and Password Sign-in Links -->
               <div class="ask-register">
                 <a [routerLink]="['/user/register']">Register</a>
-                <ion-button class="navSignIn" (click)="navToSignIn()"
-                  >Password Signin</ion-button
-                >
+                <ion-button class="navSignIn" (click)="navToSignIn()">Password Sign-in</ion-button>
               </div>
             </ion-list>
           </form>
         </ion-card-content>
-        <!------------------- Found New User ---------------------------- -->
+
+        <!-- New User Registration Form -->
         <ion-card-content *ngIf="isNewUser">
-          <!-- [formGroup]="" (submit)="" -->
           <form>
             <ion-list>
+              <!-- Full Name Input -->
               <ion-item>
                 <ion-input
                   labelPlacement="floating"
@@ -171,6 +180,8 @@
                   formControlName="fullName"
                 ></ion-input>
               </ion-item>
+
+              <!-- Email Input -->
               <ion-item>
                 <ion-input
                   labelPlacement="floating"
@@ -179,7 +190,8 @@
                   formControlName="email"
                 ></ion-input>
               </ion-item>
-  
+
+              <!-- Save Button -->
               <ion-button
                 size="large"
                 class="ion-margin-top"
@@ -187,8 +199,6 @@
                 color="primary"
                 type="submit"
               >
-                <!-- [disabled]=""
-              (click)="" -->
                 Save
               </ion-button>
             </ion-list>
@@ -198,11 +208,10 @@
     </div>
   </ion-content>
 
+  <!-- Footer Section -->
   <ion-footer>
     <ion-toolbar>
-      <ion-title class="ion-text-center"> Target Developers </ion-title>
+      <ion-title class="ion-text-center">Target Developers</ion-title>
     </ion-toolbar>
   </ion-footer>
 </ion-app>
-
-
