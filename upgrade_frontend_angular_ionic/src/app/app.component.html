@@ -51,17 +51,17 @@
         <!-- Navigation items -->
         <ion-list>
           <!-- Show 'Spaces' option if the user is not logged in -->
-          <ion-item *ngIf="!isUser" routerLink="/properties">Spaces</ion-item>
+          <ion-item *ngIf="!isUser" routerLink="/properties" (click)="closeMenu()">Spaces</ion-item>
           <!-- Show 'Add Your Space' if the user is not logged in (linking to sign in) -->
-          <ion-item *ngIf="!isUser" routerLink="/user/signin">Add Your Space</ion-item>
+          <ion-item *ngIf="!isUser" routerLink="/user/signin" (click)="closeMenu()">Add Your Space</ion-item>
           <!-- Show 'SignIn' option if the user is not logged in -->
-          <ion-item *ngIf="!isUser" routerLink="/user/signin">SignIn</ion-item>
+          <ion-item *ngIf="!isUser" routerLink="/user/signin" (click)="closeMenu()">SignIn</ion-item>
           <!-- Show 'Register' option if the user is not logged in -->
-          <ion-item *ngIf="!isUser" routerLink="/user/register">Register</ion-item>
+          <ion-item *ngIf="!isUser" routerLink="/user/register" (click)="closeMenu()">Register</ion-item>
           <!-- Show 'Manage' option if the user is logged in -->
           <ion-item *ngIf="isUser">Manage</ion-item>
           <!-- Show 'Sign Out' if the user is logged in -->
-          <ion-item *ngIf="isUser" (click)="signOut()">Sign Out</ion-item>
+          <ion-item *ngIf="isUser" (click)="signOut(); closeMenu()">Sign Out</ion-item>
         </ion-list>
       </ion-list>
     </ion-content>

@@ -11,6 +11,9 @@ import { UserService } from './user/user.service';
 import { PropertiesNewComponent } from './properties/properties-new-modal/properties-new.component';
 import { PropertiesUploadsComponent } from './properties/properties-uploads-modal/properties-uploads.component';
 import { Property } from './shared/interface/property';
+import { MenuController } from '@ionic/angular';
+
+
 
 // Register swiper js
 import { register } from 'swiper/element/bundle';
@@ -28,6 +31,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public modalController: ModalController,
+    private menuController: MenuController,
     private user: UserService,
     private router: Router,
     private toastCtrl: ToastController,
@@ -42,6 +46,11 @@ export class AppComponent implements OnInit {
       console.log("prop session", isSession);
       this.isUser = isSession;
     });
+  }
+
+   // Function to close the side menu
+   closeMenu() {
+    this.menuController.close();
   }
 
   // Method to handle user sign-out
